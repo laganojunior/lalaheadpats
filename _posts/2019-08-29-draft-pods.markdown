@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Draft pod pairings
+title:  Draft pod pairings - What round do you want to play against your friend?
 date:   2019-08-29 00:00:00 -0700
 tags: [magic, math]
 math: true
@@ -28,7 +28,7 @@ single elimination tournaments with a somewhat top heavy prize distribution.
 One of those friends, Jon, and I decided to sign up for one of the side tournaments together. Another
 friend, Eric, didn't want to risk playing with us and decided to sign up for a different event.
 Jon and I pondered about this, and figured that perhaps he just wanted to maximize our group winning
-potential (or just doesn't like playing with us, who knows really).
+potential (or just doesn't like playing with us, who knows really) [^1]
 
 Perhaps as a form of karmic justice, Jon and I ended up being paired in the first game.
 This guaranteed that one of us would be eliminated with 0 wins and thus leaving with 0 tickets.
@@ -72,7 +72,7 @@ the last game if applicable.
 | 2    | 200     | $$P(\text{winning a game})^2P(\text{losing a game}) = 0.5^3$$   | 25 |
 | 3    | 400     | $$P(\text{winning a game})^3 = 0.5^3$$  | 50 |
 |==================================================|
-|      | Total/Expected Value | $$1.0$$ | 80 |
+|      |         | Expected Value | 80 |
 
 So the expected value of tickets I win is 80. Similarly, Jon's expected value of tickets won
 is also 80. So what's the expected value of the sum of the tickets won between ourselves if we're
@@ -81,11 +81,11 @@ in the same tournament? It turns out that the expectations just add due to the
 
 $$ E[\text{My tickets} + \text{Jon's tickets}] = E[\text{My tickets}] + E[\text{Jon's Tickets}] $$
 
-So our expected total ticket is 160[^1]. This works even though the amount of tickets we win individually aren't independent!
+So our expected total ticket is 160[^2]. This works even though the amount of tickets we win individually aren't independent!
 For example if we were to face each other in the first game, if I were to end up with 20 tickets (or any value more
 than 0), then Jon must have 0 tickets. Expected value sums don't care about the individual terms being independent
 or not. That's one of the fun properties I remember from college probability, and why my first intuition is that
-it all didn't really matter in the first place.
+our seeding probably didn't really matter in the first place.
 
 Since the probabilities for winning a single game is constant, the overall expected value is the same whether
 we face each other in the first round or if we would only face each other in the final round. Therefore, we
@@ -100,36 +100,44 @@ until the finals so we can guarantee getting 600 tickets total. Conversely, if J
 anyone else at the convention, then we would instead prefer to match with each other in the first game so that
 we can walk away with 20 tickets instead of nothing.
 
-Let's assume then that Magic is a game of pure skill and that all players can be ordered in a line such that players
-will beat everyone else behind them in the line 100% of the time. We can then represent player
-skill as the percentage of players they would beat in a game of magic. The tournament is then seeded with Jon,
-I, and 6 other randomly chosen players.
+Let's assume then that Magic is a game of pure skill and that all players can be ordered in a line (the skill
+spectrum) such that players will beat everyone else behind them in the line 100% of the time. We can then
+represent player skill as the percentage of players they would beat in a game of magic. The tournament is
+then seeded with Jon, I, and 6 other players chosen independently uniformly randomly from the skill spectrum.
 
-Let $$x$$ be my skill and $$y$$ be Jon's skill. That is, I would beat a randomly chosen
-person with probability $$x$$ and Jon would beat a randomly chosen person with probability $$y$$.
-For the sake of not duplicating logic, let's also assume that $$ x > y $$. I _did_ beat Jon after all
-in this tournament. However, similar logic follows in the case of $$ x < y $$.
+Let $$x$$ be my skill and $$y$$ be Jon's skill. For the sake of not duplicating logic, let's also assume that $$ x > y $$.
+I _did_ beat Jon after all in this tournament. However, similar logic follows in the case of $$ x < y $$.
 
 ![Skill Line](/assets/draft_pods/skill_line.png)
 
+I want to emphasize that $$x$$ and $$y$$ are _constants_ and that the only source of randomness is 
+the selection of the 6 other players from the skill spectrum. Given the selection of the 6 other
+players and the tournament bracket, the results of the tournament are deterministic.
+
 In this setting, the probability of winning does change when and if I face Jon. So let's first
-consider the case where we match up in the first round. I am guaranteed to win the first round.
-In the 2nd game, I would have to beat the winner of 2 random people. Generally speaking, this winner
-has higher skill than a random person because this winner beat someone else. I would beat this winner
-if and only if I would have been able to beat both of them, that is my skill is greater than the max skill
-of the 2 players. If those 2 players have skills $$z_1$$ and $$z_2$$ respectively:
+consider the case where we match up in the first round. I am guaranteed to win the first round. Then
+I have face the winner of the 2 random people. If this was just a random person chosen from the skill
+spectrum, the probability that this person's skill is lower than mine is $x$. However, this player
+beat another random player and therefore had skill higher than another random player.
+
+If the 2 players have skill ratings $$Z_1$$ and $$Z_2$$ respectively, then the player who wins has
+skill rating $$max(Z_1, Z_2)$$. What's the probability that $$max(Z_1, Z_2)$$ is less than some value
+$t$? This only occurs if and only if both $$Z_1$$ and $$Z_2$$ are less than $$t$$. Since the selection
+of individual players is independent, that's just the product of $$Z_1$$ and $$Z_2$$ individually
+being less than $$t$$.
 
 $$
 \begin{align*}
-  P(x > max(z_1, z_2)) &= P(x > z_1\text{ and }x > z_2) \\
-                       &= P(x > z_1)P(x > z_2) \\
-                       &= x^2
+  P(max(Z_1, Z_2) < t) &= P(Z_1 < t \text{ and } Z_2 < t) \\
+                       &= P(Z_1 < t)P(Z_2 < t) \\
+                       &= t^2
 \end{align*}
 $$
 
-So I would win that game with probability $$x^2$$. Similarly, if I make it to the third game, I would
-have to beat the best player out of 4 randomly chosen people. The probability of me winning the final
-game if I reach it is then $$x^4$$.
+The probability that I win is the probability that the value $$max(Z_1, Z_2)$$ is than my skill
+rating $$x$$, which is just $$x^2$$. Similarly, if I make it to the third game, my opponent would
+be the best of 4 random players. The probability of $$max(Z_1, Z_2, Z_3, Z_4)$$ being lower than
+my skill rating $$x$$ is $$x^4$$.
 
 Overall, my expected value for tickets in the case of being matched with Jon in the first round is
 
@@ -139,7 +147,7 @@ Overall, my expected value for tickets in the case of being matched with Jon in 
 | 2    | 200     | $$ x^2*(1 - x^4) $$ | $$ 200*x^2*(1-x^4) $$ |
 | 3    | 400     | $$ x^2*x^4 $$ | $$ 400*x^2*x^4 $$  |
 |==================================================|
-|      | Total/Expected Value | $$1$$ | $$20 + 180 x^2 + 200 x^6$$ |
+|      |         | Expected Value | $$20 + 180 x^2 + 200 x^6$$ |
 
 Since Jon is guaranteed is to lose the first game and get 0 tickets, this is our overall expected
 value of total tickets.
@@ -148,12 +156,23 @@ $$
   E[\text{total tickets if matched in the first round}] = 20 + 180 x^2 + 200 x^6
 $$
 
-Now let's consider the case where we would only face each other in the finals. I will win the
-first game with probability $$x$$. For the second game, I would need to beat the better of 2 random
-players and win with probability $$x^2$$. For the third game, I would need to beat the best
-of 3 random players and Jon. Since I'm already better than Jon, this is the same of me beating the best of
-3 random players, so the probability of me winning the 3rd game is $$x^3$$. My expected value of tickets
-in the case of meeting Jon only possibly in the finals is:
+Now let's consider the case where we would only face each other in the finals. In the first game,
+I'm paired with a random player, which we know that I can beat with probability $$x$$.
+For the second game, I would need to beat the better of 2 random players and win with probability $$x^2$$.
+For the third game, I would need to beat the best of 3 random players and Jon. 
+
+$$
+\begin{align*}
+  P(max(Z_1, Z_2, Z_3, y) < t) &= P(Z_1 < t \text{ and } Z_2 < t \text{ and } Z_3 < t \text{ and } y < t) \\
+                               &= P(Z_1 < t)P(Z_2 < t)P(Z_3 < t)P(y < t) \\
+                               &= t^3 * (\text{1 if y < t else 0})
+\end{align*}
+$$
+
+Since $$ x > y $$ because I'm better than Jon, the probability that I can beat this player in the finals
+is $$x^3$$.
+
+My expected value of tickets in the case of meeting Jon only possibly in the finals is:
 
 | Wins | Tickets | Probability | Weighted Tickets |
 |:-----|:--------|:------      |:-----            |
@@ -162,7 +181,7 @@ in the case of meeting Jon only possibly in the finals is:
 | 2    | 200     | $$ x*x^2*(1 - x^3) $$ | $$ 200*x*x^2*(1-x^3) $$ |
 | 3    | 400     | $$ x*x^2*x^3 $$ | $$ 400*x*x^2*x^3 $$  |
 |==================================================|
-|      | Total/Expected Value | $$1$$ | $$ 20 x + 180 x^3 + 200 x^6  $$ |
+|      |         | Expected Value | $$ 20 x + 180 x^3 + 200 x^6  $$ |
 
 Similarly, in the first round, Jon would have to beat a random player with probability y. Then if he reaches
 the second round, he needs to beat the better of 2 random players with probability y^2. If Jon wins 2 rounds,
@@ -175,7 +194,7 @@ Jon's expected tickets in the case he doesn't have to face me until the finals i
 | 1    | 20      | $$ y*(1 - y^2) $$   | $$ 20 * y*(1-y^2) $$   |
 | 2    | 200     | $$ y*y^2 $$ | $$ 200*y*y^2 $$ |
 |==================================================|
-|      | Total/Expected Value | $$1$$ | $$ 20 y + 180 y^3 $$ |
+|      |         | Expected Value | $$ 20 y + 180 y^3 $$ |
 
 With linearity of expectation, we can just add these expected values to get the expected total
 
@@ -195,12 +214,19 @@ $$
 
 The left side is the expected value of tickets that Jon gets trying to win tickets on his own. The right side represents
 the marginal expected tickets I get if I get a free win from Jon compared to if I had to beat
-a random person in the first game[^2]. So we would prefer to not be matched with each other if we believe that
+a random person in the first game[^3]. So we would prefer to not be matched with each other if we believe that
 Jon would get more tickets by himself than we would if he gives me a free win.
 
 We can graph over the valid values for $$x$$ and $$y$$ to get a better understanding of when this happens
 
 ![Expected Value Difference Graph](/assets/draft_pods/graph1.png)
+{:center: style="text-align: center"}
+_Plotting preferences over $$x$$ (my skill rating) and $$y$$ (Jon's skill rating). Red is the area where we
+prefer to be matched in the first round. Green is the area where we prefer to be matched in the final round.
+The plot only covers half the space since the values are only valid for $$x > y$$. For $$y > x $$, just imagine
+flipping the figure over the $$ x = y $$ diagonal._
+{:center}
+
 
 As expected, around $$(1, 1)$$, we would prefer to match at the final round to maximize winnings.
 Around $$(0, 0)$$ we would prefer to match up in the first round to take the free win. What was interesting
@@ -222,12 +248,16 @@ for differing player skill affecting win probabilities, which would allow Jon to
 me and perhaps change the overall calculus. But that's an exercise for perhaps another day.
 
 [^1]:
-    I could have also reached this result by noting that the total tickets won in the tournament
-    is 640 and that each of the 8 participants have equal probabilities of reaching any result. So the
-    expected value of winnings per participant is $$640/8 = 80$$. But this approach extends better to
-    the rest of this writing.
+    Eric would like to put for the record that he just wants to play with people he doesn't already
+    know. He just likes testing himself against unknown players and decks.
 
 [^2]:
+    I could have also reached this result by noting that the total tickets won in the tournament
+    is 640 and that each of the 8 participants have equal probabilities of reaching any result. So the
+    expected value of winnings per participant is $$640/8 = 80$$. But laying out the win count probabilities extends
+    better to the rest of this writing.
+
+[^3]:
     The $$200x^6$$ terms disappears because it shows up in both sides. It's related to the marginal
     additional tickets of me making to and playing the final game. Regardless of whether I face Jon in the first game or in
     the finals, I end up having to be better than 6 random people to get to and win in the finals.
