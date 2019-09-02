@@ -2,7 +2,7 @@
 layout: post
 title:  Draft pod pairings - What round do you want to play against your friend?
 date:   2019-08-29 00:00:00 -0700
-tags: [magic, math]
+tags: [magic, math, probability]
 math: true
 ---
 
