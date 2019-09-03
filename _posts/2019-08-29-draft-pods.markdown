@@ -122,7 +122,7 @@ beat another random player and therefore had skill higher than another random pl
 
 If the 2 players have skill ratings $$Z_1$$ and $$Z_2$$ respectively, then the player who wins has
 skill rating $$max(Z_1, Z_2)$$. What's the probability that $$max(Z_1, Z_2)$$ is less than some value
-$t$? This only occurs if and only if both $$Z_1$$ and $$Z_2$$ are less than $$t$$. Since the selection
+$$t$$? This only occurs if and only if both $$Z_1$$ and $$Z_2$$ are less than $$t$$. Since the selection
 of individual players is independent, that's just the product of $$Z_1$$ and $$Z_2$$ individually
 being less than $$t$$.
 
