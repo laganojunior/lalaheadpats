@@ -183,8 +183,8 @@ My expected value of tickets in the case of meeting Jon only possibly in the fin
 |==================================================|
 |      |         | Expected Value | $$ 20 x + 180 x^3 + 200 x^6  $$ |
 
-Similarly, in the first round, Jon would have to beat a random player with probability y. Then if he reaches
-the second round, he needs to beat the better of 2 random players with probability y^2. If Jon wins 2 rounds,
+Similarly, in the first round, Jon would have to beat a random player with probability $$y$$. Then if he reaches
+the second round, he needs to beat the better of 2 random players with probability $$y^2$$. If Jon wins 2 rounds,
 then he would have to face me or someone who is better than me, so he has no chance of winning the final round.
 Jon's expected tickets in the case he doesn't have to face me until the finals is:
 
