@@ -247,6 +247,8 @@ Now I'm ignoring the fact that Magic isn't quite a game of pure skill, so there'
 for differing player skill affecting win probabilities, which would allow Jon to win games against
 me and perhaps change the overall calculus. But that's an exercise for perhaps another day.
 
+Footnotes:
+
 [^1]:
     Eric would like to put for the record that he just wants to play with people he doesn't already
     know. He just likes testing himself against unknown players and decks.
