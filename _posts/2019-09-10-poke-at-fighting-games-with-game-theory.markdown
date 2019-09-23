@@ -550,7 +550,7 @@ mixup game, there's so many things that could change the payoffs for each attack
 * **The knowledge, skill, and preparation of the opposing player.** If the defender is unfamiliar with the matchup or does not consistently take full advantage of the
   attacker's vulnerabilities, then risky moves with large payoffs for the attacker such as switch 1, switch 4, and step in 2 could be used more by the attacker.
 * **People are bad at randomization.** Even if both players are trying to play the Nash equilibrium strategies (which is already unlikely), people are just bad at
-  being random and inevitably would show patterns that the defender can take advantage of. Recognizing opponent's patterns or even conditioning your opponent to behave a certain
+  being random and inevitably would show patterns that the opponent can take advantage of. Recognizing opponent's patterns or even conditioning your opponent to behave a certain
   way is a skill amongst top players in fighting games. You'll notice in competitive play that after a while, better players seemingly start knowing exactly what their
   opponent is going to do and just win easily from there. As fighting game pro Lee "Infiltration" Seon-woo describes it, ["Download Complete"](https://www.youtube.com/watch?v=uJQa9b_8h1s).
 
@@ -560,16 +560,15 @@ caught up with trying to learn all the options at first and just have fun with m
 
 However, this model has a disconnect with actual play. I've been trying to maximize our expected damage swing per mixup, and we're getting numbers of
 ~1 to ~5 damage per mixup. This is below the damage of a single jab! This is fine if players had near infinite pools of health and the games were infinitely long and we were just
-playing a damage tug-of-war, so then we can justify this approach over the long term. But in Tekken 7, combos do greater than 70 damage
+playing a game of damage tug-of-war. Then we can justify this approach over the long term. But in Tekken 7, combos do greater than 70 damage
 (or even your full health pool depending on the situation!) and health pools are only 170 health in total. It's possible that we only play a few instances of the mixup game,
-so the variance in payoffs matters quite a bit. Also once we get to lower healths, a 10 damage option might be just as good as a 70 damage option in terms of winning the game,
-even if the 70 damage option would typically carry more risk. 
+so the variance in payoffs matters quite a bit. Also once we get to lower health values, a 10 damage option might be just as good as a 70 damage option in terms of winning the game,
+but the 70 damage option would typically carry more risk.
 
 In my next post, I'll be tweaking the modeling to take into account repeated mixup games and how strategies change when health pools start decreasing. To do this, I'll also 
 introduce the concept of "frame advantage" and what "taking turns" in fighting games looks like. It's an additional layer of depth found in the fundamentals of most fighting games and
-also an additional layer of looking at turn-based games in game theory and some algorithms in programming. If you had any fun looking at fighting games through this lens of
+also an additional layer of looking at turn-based games in game theory and algorithms in programming. If you had any fun looking at fighting games through this lens of
 mixed Nash equilibrium, I'm sure that that follow-up will be fun for you as well!
-
 
 ## Appendix A: Solving mixed Nash equilibrium by hand
 
@@ -657,7 +656,7 @@ if I changed values around.
     on damage output especially for launching combos.
 
 [^3]:
-    Randomizing evenly is already pretty hard on its own right, as evidenced from people organizing rock, paper, scissors tournaments. (https://www.wrpsa.com/rock-paper-scissors-world-championship/)
+    Randomizing evenly is already pretty hard on its own right, as evidenced from people organizing rock, paper, scissors tournaments. https://www.wrpsa.com/rock-paper-scissors-world-championship/
 
 [^4]:
     As far as I can tell though, the convergence of players towards Nash equilibrium is unknown. So it's possible that players don't really tend towards Nash equilibrium
@@ -667,5 +666,6 @@ if I changed values around.
     D. Avis, G. Rosenberg, R. Savani , and B. von Stengel (2010), Enumeration of Nash Equilibria for Two-Player Games. Economic Theory 42, 9-37. Online solver available at http://banach.lse.ac.uk.
 
 [^6]:
-    Josie has 2 other options out of step in. Step in 1, 3 is a high, high string that's generally only used for combos. Step in 4 is a quick mid out of crouch dash,
-    and is actually a common option you'll see in competitive play. I don't include step in 4 for simplicity because it's functionally similar to a switch 2 or 4 in the model I'm setting up.
+    Josie has 2 other options out of step in. Step in 1, 3 is a high, high string that's generally only used for combos. Step in 4 is a quick mid,
+    and is actually a common option you'll see in competitive play as an additional check to see if the defender is ducking. I don't include step in 4 for simplicity
+    because it's functionally similar to a switch 2 or 4 in the model I'm setting up.
