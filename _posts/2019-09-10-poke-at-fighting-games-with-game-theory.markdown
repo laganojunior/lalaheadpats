@@ -488,17 +488,17 @@ We're really adding on the layers of depth now!
 
 Adding in these additional options for the attacker and defender and recalculating the Nash equilibrium gives:
 
-|                                    | Defender strategy probabilities   | 0.568          | 0.091           | 0.152        | 0             | 0.162        | 0            | 0.026     |
-| Attacker strategy probabilities    |                                   | Stand -> Stand | Stand -> Duck   | Duck -> Duck | Duck -> Stand | Jab -> Stand | Jab -> Duck  | Launch    | Expected damage (given defender strategy) |
-| :-----                             |:-----                             |:--------       | :----           |:------       | :----         |:-----        | :-----       |:-----     | :-----      |
-| 0.043                              | **Switch 1**                      | 0              | 0               | -65          | -65           | 70           | 70           | 70        |  3.300      |
-| 0.396                              | **Switch 2**                      | 0              | 15              | 15           | 15            | -5           | -5           | 70        |  3.300      |
-| 0.049                              | **Switch 3**                      | 15             | 0               | -50          | -50           | -5           | -5           | 70        |  3.300      |
-| 0                                  | **Switch 4**                      | 0              | 0               | 20           | 20            | -40          | -40          | 20        |  -2.926     |
-| 0                                  | **Step in 2**                     | -50            | 70              | 70           | -50           | 70           | 70           | -60       |  -1.568     |
-| 0.103                              | **Step in 3**                     | 25             | -55             | -55          | 25            | 25           | -55          | -60       |  3.301      |
-| 0.410                              | **Step in 1+2**                   | 0              | 20              | 20           | 0             | 0            | 20           | -60       |  3.301      |
-| Expected damage (given attacker strategy) |                            | 3.301          | 3.301           | 3.301        | 3.301         | 3.301        | 3.301        | 3.301     |             |
+|                                    | Defender strategy probabilities   | 0.568         | 0.091        | 0.152       | 0            | 0.162       | 0          | 0.026  |             |
+| Attacker strategy probabilities    |                                   | Stand / Stand | Stand / Duck | Duck / Duck | Duck / Stand | Jab / Stand | Jab / Duck | Launch | Expected damage (given defender strategy) |
+| :-----                             |:-----                             |:--------      | :----        |:------      | :----        |:-----       | :-----     |:-----  | :-----      |
+| 0.043                              | **Switch 1**                      | 0             | 0            | -65         | -65          | 70          | 70         | 70     |  3.301      |
+| 0.396                              | **Switch 2**                      | 0             | 15           | 15          | 15           | -5          | -5         | 70     |  3.301      |
+| 0.049                              | **Switch 3**                      | 15            | 0            | -50         | -50          | -5          | -5         | 70     |  3.301      |
+| 0                                  | **Switch 4**                      | 0             | 0            | 20          | 20           | -40         | -40        | 20     |  -2.926     |
+| 0                                  | **Step in 2**                     | -50           | 70           | 70          | -50          | 70          | 70         | -60    |  -1.568     |
+| 0.103                              | **Step in 3**                     | 25            | -55          | -55         | 25           | 25          | -55        | -60    |  3.301      |
+| 0.410                              | **Step in 1+2**                   | 0             | 20           | 20          | 0            | 0           | 20         | -60    |  3.301      |
+| Expected damage (given attacker strategy) |                            | 3.301         | 3.301        | 3.301       | 3.301        | 3.301       | 3.301      | 3.301  |             |
 
 
 The solver actually gives 5 different (extreme) Nash equilibrium! I only give one of them as an example here. This means that there's actually an infinite number
