@@ -81,7 +81,7 @@ _This is Josie. She's totally not crying because she wants head pats from you. (
 {:center}
 
 In game, I would describe Josie's play style as being a nuisance to the opponent. She can get her opponents to be in situations
-where they are disincentivized from attacking by threatening to do big damage if the opponent attacks at wrong time
+where they are disincentivized from attacking by threatening to do big damage if the opponent attacks at the wrong time
 or distance because of a wrong guess or just matchup unfamiliarity. The usual result is that
 the opponent learns to "not press buttons" (the first tip I would give to anyone learning to play against Josie!). But if the
 opponent respects her too much, Josie can chip away at her opponent slowly to death.
@@ -661,7 +661,7 @@ if I changed values around.
 
 [^4]:
     As far as I can tell though, the convergence of players towards Nash equilibrium is unknown. So it's possible that players don't really tend towards Nash equilibrium
-    in the wild through adapting to each other's player. But I still think that finding the stable Nash equilibrium gives us insight on what a good strategy could look like.
+    in the wild through adapting to each other's play style. But I still think that finding the stable Nash equilibrium gives us insight on what a good strategy could look like.
 
 [^5]:
     D. Avis, G. Rosenberg, R. Savani , and B. von Stengel (2010), Enumeration of Nash Equilibria for Two-Player Games. Economic Theory 42, 9-37. Online solver available at http://banach.lse.ac.uk.
