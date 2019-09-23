@@ -438,8 +438,6 @@ On top of all that, a step in transition is slow enough such that the defender c
 beaten before by any option from switch stance. There's enough time that the defender can do a launching move to do a full combo back onto the attacker,
 so I'll just consider the defender only possibly doing a launching move as the slower move of choice.
 
-[Step in defending punish]
-https://gfycat.com/celebratedcookedbarasinga
 <iframe
   src='https://gfycat.com/ifr/celebratedcookedbarasinga?autoplay=0'
   style="margin: 0 auto; display: block"
