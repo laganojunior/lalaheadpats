@@ -270,7 +270,7 @@ A pair of strategies where the 2 players do not want to change their own strateg
 strategy is called a [Nash equilibrium](https://en.wikipedia.org/wiki/Nash_equilibrium). Nash equilibria
 are well-studied concepts in game theory that come in many different forms. Here we're going to look for
 mixed Nash equilibria because the players are randomizing among their options. We can try to calculate the
-Nash equilibria of this game by hand ([See Appendix A](#appendix-a-solving-mixed-Nash-equilibrium-by-hand)), but I'm going to use a handy Nash equilibria solver
+Nash equilibria of this game by hand ([See Appendix A](#appendix-a-solving-mixed-nash-equilibrium-by-hand)), but I'm going to use a handy Nash equilibria solver
 [here](http://cgi.csc.liv.ac.uk/~rahul/bimatrix_solver/) [^5].
 If you use the web solver yourself, and I do encourage you to, I'm setting the payoff matrix as the damage numbers for
 the attacker and checking the box that this is a zero-sum game.
