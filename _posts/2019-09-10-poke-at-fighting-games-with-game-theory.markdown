@@ -50,7 +50,7 @@ a barrage of attacks from the attacker and that it was probably pretty hard to d
 Daigo had to:
   * make over a dozen precisely timed button presses (within about 7 milliseconds)
   * have the awareness and mental fortitude to jump and parry on the final hit to land a max damage combo to ensure the comeback
-  * start off the entire parring _predicting_ when the attacker was going to even start since it's too late to react to once the attack animation starts
+  * start off the entire thing _predicting_ when the attacker was going to even start since it's too late to react to once the attack animation starts
 
 The clip has been analyzed several times from several perspectives, you just have to search for "Evo moment #37" to find more insight on it. But here's a
 [link to the wikipedia page](https://en.wikipedia.org/wiki/Evo_Moment_37) to start you off. That's right, this one minute moment from an old video game
