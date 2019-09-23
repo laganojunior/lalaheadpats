@@ -24,10 +24,10 @@ It has been argued that Magic's randomness has contributed to its longevity, by 
 and people of lesser skill to be able to get wins against better players and not feel bad all the time[^1].
 So the true win rate of better players is somewhere in between a pure coin flip and 100% certainty.
 
-![Brian Kibler losing to Bonfire](https://farm9.staticflickr.com/8032/7978765409_43cab37687_o.gif){: style="margin: 0 auto; display: block"}
+![brian kibler losing to bonfire](https://farm9.staticflickr.com/8032/7978765409_43cab37687_o.gif){: style="margin: 0 auto; display: block"}
 
 {:center: style="text-align: center"}
-_Even a hall of famer can't escape losing to a lucky topdeck. Or perhaps Brian Kibler just wanted the other guy to not feel bad._
+_even a hall of famer can't escape losing to a lucky topdeck. or perhaps brian kibler just wanted the other guy to not feel bad._
 {:center}
 
 I'll use the same settings as the previous post. The tournament is a 8 person single-elimination
