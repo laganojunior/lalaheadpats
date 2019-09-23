@@ -69,7 +69,7 @@ Recently, I've been playing the fighting game "Tekken 7". Tekken has a pretty di
 voice actors to voice the character in what their native language would be. Being from the Philippines, I got into playing a character named Josie.
 Continuing the [long](https://en.wikipedia.org/wiki/E._Honda) [tradition](https://streetfighter.fandom.com/wiki/T._Hawk)
 of [stereotypes](https://tekken.fandom.com/wiki/Michelle_Chang) in fighting games, Josie is the perfect representation of a filipina woman.
-Her costume is like some took the [the Philippine flag](https://en.wikipedia.org/wiki/Flag_of_the_Philippines) and made a skirt out of it.
+Her costume is as if someone took the [the Philippine flag](https://en.wikipedia.org/wiki/Flag_of_the_Philippines) and made a skirt out of it.
 Her name is the [equivalent of naming your American daughter after George Washington](https://en.wikipedia.org/wiki/Jos%C3%A9_Rizal).
 [She even cries when she wins](https://www.youtube.com/watch?v=w66Kzs7UIHk&t=47s), which if you ever watch any filipino television,
 you're aware of a filipino's eagerness to give you a sob story if you hand her screen time. The only thing missing is that her
