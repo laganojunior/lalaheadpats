@@ -8,8 +8,8 @@ math: true
 
 I love fighting games. They are the _best_ video games for anyone to just start watching
 and enjoy the show. The rules are easy to pick up - 2 characters (or teams of characters) enter and
-start beating each other up until the other's life bar depletes [^1]. The games are quick (usually only a few minutes),
-fast-paced, and the aesthetics are designed to deliver a satisfying feeling to player and spectator alike.
+start beating each other up until the other's life bar (or bars) depletes [^1]. The games are quick (usually only a few minutes),
+fast-paced, and the aesthetics are designed to highlight the significant moments so viewers don't miss a beat.
 Recent fighting games have added features mainly for the spectator experience, such as freeze frames,
 flashy cinematic animations, and slow motion to further increase the hype and tension for players and spectators.
 
@@ -21,7 +21,7 @@ flashy cinematic animations, and slow motion to further increase the hype and te
 </figure>
 
 This is Evo moment #37. Two fighting game all-time legends Daigo Umehara and Justin Wong are facing each other on the biggest stage
-for fighting games - [Evolution](https://en.wikipedia.org/wiki/Evolution_Championship_Series).
+for fighting games - [Evolution (or Evo for short)](https://en.wikipedia.org/wiki/Evolution_Championship_Series).
 Daigo is in danger of losing to any hit from Justin. Justin unleashes a super move that does a dozen attacks, each of which would kill Daigo
 if Daigo just simply stands there and guards them. Daigo successfully inputs the parry with precision timing for each individual
 hit of Justin's super move, and then does a full combo back to complete the unlikely comeback. All of this in front
@@ -35,7 +35,7 @@ of mine that's from Evolution 2018. Here, American player Terrelle "Lil Majin" J
 the Mandalay Bay Event Center in Las Vegas. While Lil Majin is a good player in his own right, JDCR is one of the greatest
 players in the whole world, making the only American player left in the tournament a clear underdog. This gap was only made more clear
 when Lil Majin gets crushed in the first game in the best of 3 series. With the home crowd roaring behind his back, legendary commentary
-that's pushing the story of the underdog American, and theatrics from pro wrestling lover Lil Majin, Lil Majin brings the set to a nail-biter
+that's pushing the story of the underdog American, and theatrics from pro wrestling lover Lil Majin, the set ends up being a nail-biter
 where the tension and excitement never lets up. (The video is skipped to just before the 2nd game starts).
 
 <figure class="video_container">
@@ -45,11 +45,11 @@ where the tension and excitement never lets up. (The video is skipped to just be
 
 Even though I don't really play competitively, I still look forward to the big tournaments every year. Competitive fighting games are so exciting to
 watch as a casual observer, but there's also a lot of depth to fighting games than is evident from just what's visually on the screen.
-For the Evo moment 37 clip, a person fluent in video games in general may read that Daigo just made a unlikely comeback after deflecting
-a barrage of attacks from the attacker and that it was probably pretty hard to do. A player really familiar with the game realizes that the
+For the Evo moment #37 clip, a person fluent in video games in general may read that Daigo just made a unlikely comeback after deflecting
+a barrage of attacks from the attacker, and that it was probably pretty hard to do. A player really familiar with the game realizes that the
 Daigo had to:
-  * make over a dozen precisely timed button presses (within about 7 milliseconds)
-  * have the awareness and mental fortitude to jump and parry on the final hit to land a max damage combo to ensure the comeback
+  * make over a dozen precisely timed button presses (each within a window of about 7 milliseconds)
+  * have the awareness and mental fortitude to go for the additional risk of jumping and parrying the final hit to land a max damage combo to ensure the comeback
   * start off the entire thing _predicting_ when the attacker was going to even start since it's too late to react to once the attack animation starts
 
 The clip has been analyzed several times from several perspectives, you just have to search for "Evo moment #37" to find more insight on it. But here's a
@@ -58,7 +58,9 @@ tournament is notable enough to have its own Wikipedia page!.
 
 The amount of sub-second decisions, situation recognition over matchups over dozens of characters, and the amount of mental fortitude to execute what
 you need to do under pressure is what makes fighting games so rewarding to players willing to dedicate some time to getting good at something.
-I am not a good fighting game player, but that doesn't mean I can't appreciate the depth that's in fighting games!
+I don't have the experience of being a good fighting game player, but that doesn't mean I can't appreciate the depth that's in fighting games!
+What I do have instead is a hobbyist interest in game theory and math and applying them to toy situations.
+
 Here I want to highlight a little of the depth of fighting games by diving into just one tiny situation in a fighting game using a little bit of game theory.
 Hopefully, it would entice you to be at least somewhat interested in fighting games (if the above clips weren't enough to pique your interest),
 or just the use of game theory and mathematics in general.
@@ -88,8 +90,8 @@ opponent respects her too much, Josie can chip away at her opponent slowly to de
 
 For people learning how to play either as or against Josie, one of the first situations they encounter is her "switch stance".
 After certain attacks, she pulls an Inigo Montoya (or a Ryoma Echizen if you prefer anime references) and leaves her right
-foot forward and suddenly all of her moves become more powerful. However, she can only stay in the stance for a short
-while because it would simply be unfair for her opponent to be so powerful all the time.
+foot forward and then suddenly she obtains access to all new powerful moves. However, she can only stay in the stance for a short
+while because it would simply be unfair for her opponent if she was so powerful all the time.
 
 <iframe src='https://gfycat.com/ifr/handmadedarlingkid?autoplay=0'
         style="margin: 0 auto; display: block"
@@ -113,7 +115,7 @@ of basic up/down/left/right movement. Each of the 4 attack buttons roughly map t
 * 4 - Right Foot
 
 So if I write switch 1, this is the attack that comes out when I press the 1 button while in switch
-stance, which turns out to be a left elbow. Sometimes an attack involves pressing multiple buttons which
+stance. This attack turns out to be a left elbow. Sometimes an attack involves pressing multiple buttons which
 is denoted with "+". so 1 + 2 means pressing the 1 and 2 buttons at the same time, and usually has to do
 with the hands or upper body.
 
@@ -122,7 +124,7 @@ ducking. A standing defender will block high and mid attacks and take no damage,
 hit by low attacks. A ducking defender will evade high attacks and block low attacks and take
 no damage, but will get hit by mid attacks.
 
-Let's go back to looking at Josie's switch stance. When Josie is in switch stance, all 4 buttons lead to moves that pretty good. 
+Let's now go back to looking at Josie's switch stance. When Josie is in switch stance, all 4 buttons lead to moves that pretty good. 
 After Josie goes into switch stance, she has such a head start over her opponent that all of her
 moves will usually hit before an opponent's move connects if the opponent tries to attack back. This is known
 as a "counter hit". Josie's switch 1, 2, and 3 (a high, mid, and low attack respectively) all stun her 
@@ -130,6 +132,13 @@ opponents on a counter hit, leading to a massively damaging combo. Switch 2 and 
 move from the defender except a jab, which is typically the fastest move available to a character. Switch 1 is
 fast enough to even beat a jab for the counter hit combo. Switch 4 is another mid option that doesn't give
 a counter hit combo, but does more slightly damage than a switch 2 in the case the opponent is just ducking.
+
+To summarize:
+
+* Switch 1 is a high attack that can counter hit combo any move, including jabs.
+* Switch 2 is a mid attack that can counter hit combo any slow move
+* Switch 3 is a low attack that can counter hit combo any slow move
+* Switch 4 is a mid attack that has no counter hit combo, but does more damage than switch 2 on a ducking defender.
 
 <iframe
   src='https://gfycat.com/ifr/indolentgrandiosegoldfinch?autoplay=0'
@@ -219,7 +228,8 @@ _Switch 3 on ducking defender, block punished_
 We can lay out the options both players have and the resulting damage (rounded to the nearest multiple
 of 5 damage) in a table [^2]. The rows are the attacker's options and the columns are the defender's options.
 Positive numbers are damage given by the original attacker, and negative numbers are damage given by the defender
-(like if the defender landed an attack in retaliation).
+(like if the defender landed an attack in retaliation). This table is called a "strategic form" or "normal form"
+of a game.
 
 |                 | Stand   | Duck        | Jab  | Slow move |
 |:-----           |:--------|:------      |:-----|:-----     |
@@ -230,25 +240,23 @@ Positive numbers are damage given by the original attacker, and negative numbers
 
 If you reason about this table long enough, you may realize that the defending player has no reason to
 ever try a slow move. A jab will result in better results most of the time and gives no worse
-results in the case of a switch 1 from the attacker. If we assume that the defending player will not
+results even in the case of a switch 1 from the attacker. If we assume that the defending player will not
 then choose to do a slow move, then the attacking player will never choose to do a switch 2
 because switch 4 will give no worse and sometimes better results over all the remaining defending player's options.
 
 However, even we remove these worse options from consideration, it's not obvious what
 either player should do. The best option depends on what the other player chooses. For example,
-if the defending player chooses to just stand and guard, the attacking will want to do the low
-attack. However, If the attacking player does a low attack, the defending player then wants to duck guard
-and then retaliate with their own attack. But if the defending player ducks, then the attacker would
-want to do a mid attack instead. If the attacker wants to a mid attack, the defender would want to stand
-guard and we're back where we started. This is essentially a game of rock, paper, scissors and the
-resulting guessing game is known in fighting games as a "mixup". So I'll call this game the switch stance
-mixup game.
+if the defending player chooses to just stand and guard, the attacker will want to do the low
+attack. However, If the attacking player does a low attack, the defending player then wants to duck guard.
+But if the defending player ducks, then the attacker would want to do a mid attack instead. If the attacker wants to do a mid attack,
+the defender would want to stand guard and we're back where we started. This is essentially a game of rock, paper, scissors and the
+resulting guessing game is known in fighting games as a "mixup". So I'll call this game the switch stance mixup game.
 
 If you've ever played games of rock, paper, scissors, you would know that the best strategy is to
 just randomize evenly as best you can [^3]. But here the probabilities to choose which option
 isn't that obvious because the payoffs are different for each result. For example, if the defending player
-chooses among the 3 options of stand, duck, jab with even 0.33 probability, we get:
-
+chooses among the 3 options of stand, duck, jab with even 0.33 probability, and then consider how much
+damage the attacker would get for each option, we get:
 
 | Defender strategy probabilities |  0.33    |  0.33        | 0.33  | 0         |
 |             | Stand   | Duck        | Jab  | Slow move | Expected damage (given defender strategy) |
@@ -262,7 +270,7 @@ chooses among the 3 options of stand, duck, jab with even 0.33 probability, we g
 If the defender commits to these even probabilities, the attacker would just prefer to use switch 1 all the time
 because that does the most expected damage out of all options given the defender's strategy. Then the
 defender would then want to change their strategy in response, and so on, so forth. A reasonable line of
-questioning to ask - "ok, does this changing of responses ever stop? Is there a time where the 2 players stop
+questioning to ask is - "ok, does this changing of responses ever stop? Is there a time where the 2 players stop
 wanting to change their strategy?" My intuition is that this would be the strategies that players with repeated
 play experience would tend towards [^4].
 
@@ -286,27 +294,29 @@ There turns out to be one Nash equilibrium in this mixup game.
 | 0.519                              | **Switch 4**    | 0       | 20          | -5    | 20        |  5.189      |
 | Expected damage (given attacker strategy) |      | 5.189   | 5.189       | 5.189 | 44.07     |             | 
 
-The expected damage for each option with assigned non-zero probability for _either_ attacker and defender are the same (5.189).
+The expected damage for each option with assigned non-zero probability for _either_ the attacker or defender are the same (5.189).
 The 2 strategies that have 0 probability assigned have "worse" expected damage for the respective players: Switch 2 has less
 expected damage than the other attacker options, and a slow move has more expected damage (for the attacker) than any defender
 option. So this is indeed a Nash equilibria as neither player can change their strategy to get a better result.
 
-In this equilibrium, the defending player just stands there most of the time, ducking sometimes to catch the switch 3,
+In this equilibrium, the defending player just stands there most of the time, ducking about a third of the time to catch the switch 3,
 and occasionally uses the jab to stop the switch 3 or 4. The attacking player mostly takes the safe option of doing the mid attack
 switch 4 hoping the defender is ducking, doing the low attack switch 3 to try to incentivize ducking in the first place, and
 doing the switch 1 occasionally to disincentivize the defender from jabbing.
 
-From actual play, this is indeed what happens when I play with real people that are somewhat new to the Josie matchup. That is,
-at least after they figure out they should stop trying to attack me in switch stance haphazardly after a few counter hit comos.
-But from the outside observer, I'm sure it looks pretty silly that I'm just futilely doing a attack into their guard for no damage most
+From actual play, this is indeed what happens when I play with real people that are new to the Josie matchup. That is,
+at least after they figure out they should stop trying to attack me in switch stance haphazardly after a few counter hit combos.
+But from the outside observer, I'm sure it looks pretty silly that I'm just futilely doing an attack into their guard for no damage most
 of the time.
 
 ## The switch stance mixup game against a better defender
 
-More advanced players will know that the options from switch stance aren't quite so safe as they initially appear. The defender
-can duck while using the universal low parry on a switch 3 to knock the attacker on the ground and do a moderately damaging
-combo to the attacker. At the same time, the defender can also duck switch 1 and then launch the attacker into the air for a big combo.
-Switch 4 is also risky for the attacker because a defender can jab the attacker in the air for much more damage.
+More advanced players will know that the options from switch stance aren't quite so safe as I've laid them out here.
+
+* The defender can duck while using the universal low parry on a switch 3 to knock the attacker on the ground and do a moderately damaging
+combo to the attacker.
+* The defender can also duck switch 1 and then launch the attacker into the air for a big combo.
+* The defender can convert a jab interrupt on a switch 4 into a float combo for more damage.
 
 <iframe
   src='https://gfycat.com/ifr/revolvingunselfishbushsqueaker?autoplay=0'
@@ -362,32 +372,29 @@ Changing these damage numbers in the payoff table and using the solver to recalc
 Now the risk of switch 4 getting jab floated into a combo doesn't justify the additional damage over switch 2, so
 the attacker completely switches to using switch 2 instead of switch 4 as the mid move of choice. The attacker also does switch 1
 and switch 3 much less often since the defender can punish the attacker with much more return damage. The overall result is still very similar.
-If anything, the attacker is just futilely doing mid attacks into a standing guard for no damage _even more often than before_. The threat
-of the defender getting better ducking payoffs manifests itself in the defender ending up ducking _less often than before_ because the attacker
-doesn't want to make give as many opportunities for the defender to get the better payoffs for ducking. It makes intuitive sense, but I found
-this intriguingly paradoxical.
+If anything, the attacker is just futilely doing mid attacks into a standing guard for no damage _even more often than before_ since the attacker
+is doing the mid option 80% of the time. The threat of the defender getting better ducking payoffs manifests itself in the defender ending up
+ducking _less often_ than before because the attacker doesn't want to make give as many opportunities for the defender to get the better payoffs
+in the first place. It makes intuitive sense, but I first found this intriguingly paradoxical.
 
-
-This matches up with my personal experience. If I see that the defender is prepared to duck and launch me for doing switch 1 or 3, I start
+This matches up with my personal experience. If I see that the defender is prepared to duck and combo me for doing switch 1 or 3, I start
 reducing my use of switch 1 and 3 and just do mid options to reduce my risk even if I'm just hitting his guard most of the time.
 
 The overall expected damage per mixup game has also gone down from 5.189 to 1.510 damage for the attacker. This kind of sucks for me as the
-attacking Josie since I'm really not getting that much payoff for getting into the switch mixup game in the first place.
+attacking Josie since then I'm really not getting that much payoff for getting into the switch mixup game in the first place.
 I might be better served by initiating a different mixup game or playing a different kind of play style altogether. I might even need to
-*gasp* get better at other parts of the game.
-
-
+(*gasp*) get good at the game.
 
 ## Adding step in transitions as another layer of depth
 
-But the situation is not dire for a switch stance loving Josie, she actually has more options out of switch stance by pressing forward.
+But the situation is not dire for a switch stance loving Josie, she actually has more options out of switch stance by pressing forward while in stance.
 This transitions Josie into another stance called "step in" (or "crouch dash" in common Tekken speak to group it with other similar dashing
 moves from other characters) where she doesn't do a move but just dashes into the opponent. While she's dashing in, she ducks under defending jabs
 and she has access to other moves [^6]:
 
  * step in 3 - a low attack that does more damage than switch 3.
  * step in 2 - a mid attack that launches the defender high into the air for big damage. With proper timing, this can go under
-               a jab and launch the defender before the defender can react.
+               a jab and launch the defender before the defender can recover.
  * step in 1 + 2 - a mid attack for some damage, but not as much as a step in 2.
 
 <iframe
@@ -500,7 +507,7 @@ Adding in these additional options for the attacker and defender and recalculati
 
 
 The solver actually gives 5 different (extreme) Nash equilibrium! I only give one of them as an example here. This means that there's actually an infinite number
-of Nash equilibria that are mixtures of those 5 Nash equilibria the solver gave. This isn't really a surprise given that the almost turn-based nature of the defender's game.
+of Nash equilibria that are mixtures of those 5 Nash equilibria the solver gave. This isn't really a surprise given the almost turn-based nature of the defender's game.
 Many of the payoffs look the same across defender options so it's easy to transition probabilities from one strategy to the other without changing the expected payoffs.
 
 If we decompose the probabilities for the defender back into the 2 different decision stages, we get these probabilities (this is the same for all of the Nash equilibrium).
@@ -517,15 +524,23 @@ Secondary defender decision in case of attacker step in. Note this doesn't add u
 
 This is a satisfying result from a gameplay perspective because the attacker still finds use of most options, even if it's just occasionally. However, the risks for switch 4
 and step in 2 turn out to be too risky to justify using them. The defender even finds themselves wanting to occasionally use a slow launching move sometimes to stop a step in, even
-though it's risking eating a counter hit combo from the attacking options from switch stance. Even in this simple model, we get a game that's already pretty complicated to reason about.
+though it's risking eating a counter hit combo from the attacking options from switch stance. Even in this simple model, we get a game that's already pretty complicated to reason about,
+so there's a lot of room for room for players to explore.
 
 Overall, to an outside observer, the majority result is the defender still mostly just standing there and the attacker seemingly futilely smashing mid attacks into a standing guard.
-But at least the attacker has 2 usable mids, switch 2 and step in 1+2!.  But I hope that it's at least clear that there's actually a lot of mind games going on underneath.
+But at least the attacker has 2 usable mids, switch 2 and now step in 1+2!.  But I hope that it's at least clear that there's actually a lot of mind games going on underneath.
 
-The results also match what I end up doing in actual play. I tend to phase out switch 1 if the defender shows they'll
-launch punish it, and I generally don't do step in 2 unless I just _know_ my opponent is going to duck. However, I tend to use step in 1+2 _even more_ than this for its frame advantage
-(which is a concept that doesn't affect this model here, but I'll cover this in my follow up to this) and switch 4 because of its wall bounce (I mention this in the next section) and defenders
-hardly capitalize on the float combo at the level I play at.
+So how does this influence actual play? I think it mostly matches what I see in actual play, given the model I've laid here. Some things I can think of compared to my
+actual play experience:
+
+* I probably use switch 1 and 3 much more often than only 5% each. But if I see that my opponent will launch punish and low parry combo these options consistently on each right
+  guess (which I assume here), I probably would decrease their use to around the rates here.
+* I probably use step in 3 and step in 4 even more than this. There's benefits to the moves outside of just raw damage as presented here (such as frame advantage, a concept I'll visit in the future).
+* I use switch 4 over switch 2 quite often. This is due to its damage potential in particular situations (e.g. near a wall, I mention this in the next section) and people hardly do a full float
+  combo in the level I play at. But if I imagine switch 2/4 being interchangeable mid options, doing a mid option out of switch 40% of the time makes sense.
+* If I think that a defender is going to try to jab around 15% of the time, I feel like I would try to counter hit with switch 1 more than 5% of the time. Interestingly, none
+  of the other attacker options that have non-zero probability beat a jab out-right. I guess the risk of getting a switch 1 launch punished is too high, and the mixup
+  from step in with the 3 or 1+2 is good enough of an alternative.
 
 ## Other things to look at later
 
@@ -542,7 +557,7 @@ mixup game, there's so many things that could change the payoffs for each attack
   This could possibly make switch 4 a better option than switch 2 as the mid option of choice from switch. Realizing situations where different options get better is
   part of the fun of fighting games!
 * **The character the defender is playing.** Josie is only one of a handful of characters that can block punish step in 3 for a full combo and has above average block punishment
-  damage in general. So using Josie as the reference for the defender makes some of the attacker's options less appealing (which is why I find the Josie v Josie match pretty obnoxious,
+  damage in general. So using Josie as the reference for the defender makes some of the attacker's options less appealing (which is why I find the Josie vs. Josie match pretty obnoxious,
   apart from the opponent just not falling for Josie's tricks). If the defender has worse payoffs for blocking certain offensive moves, the attacker could
   possibly increase their use of those moves.
 * **The knowledge, skill, and preparation of the opposing player.** If the defender is unfamiliar with the matchup or does not consistently take full advantage of the
@@ -635,9 +650,9 @@ $$
 Plugging that into your favorite linear system of equations solver gets you $$p_1 = 11/81$$, $$p_2 = 28/81$$, and thus $$p_3 = 1 - 11/81 - 28/81 = 42/81$$, which
 is exactly what we got from the Nash equilibrium solver. We can do a similar exercise to get the probabilities for the defender's options.
 
-This worked out because this game was a square matrix and we've taken out strategies that would get dominated by other strategies. When you
-have a non-square game matrix (like I have in later parts of the post), one ends up having to try many different square sub-games to see what the
-support should be. That's obviously a lot of work, so I'm really glad that D. Avis, et al. wrote up a Nash equilibrium solver because that saved me a lot
+This worked out because this game was a square matrix and we've taken out strategies that would get dominated by other strategies so that all options
+would end up bein the support. When you have a more complicated game matrix (like I have in later parts of the post), one ends up having to try many different
+square sub-games to see what the support should be. That's obviously a lot of work, so I'm really glad that D. Avis, et al. wrote up a Nash equilibrium solver because that saved me a lot
 of time. I ended up learning so much about Nash equilibrium that I didn't know about before by having this tool to explore what the results would be
 if I changed values around.
 
