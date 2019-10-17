@@ -353,3 +353,169 @@ at some point leading us to one of the base rules we defined just above.
 | Step in 3               | sws(x, y-25, t-1)     | 1 - ma(y, x-55, t-1)    | 1 - sws(y, x-5, t-1)  |
 | Step in 4               | 1 - sws(y, x, t-1)    | sws(x, y-15, t-1)       | sws(x, y-15, t-1)     |
 | Step in 1+2             | ma(x, y, t-1)         | ma(x, y-20, t-1)        | 1 - ma(y, x-40, t-1)  |
+
+# Calculating the overall solution
+
+For the overall game, the 2 players start at 170 health each. I'll set the starting
+turn count to 100 to simulate a round timer that's common in fighting games. Also, I'll
+just assume some player starts off in a minor frame advantage in the first turn.
+
+Given all of the transition tables above, we have a method to solve this game. We just have to
+extend to transitions out from the overall game, extend to transitions from those
+transitions, and so on so forth, until we hit a base rule (time running out or any player
+going to 0 health). The problem is that we may have to expand _a lot_ until we're done.
+Like _exponentially big_ [Footnote].
+
+To make solving this feasible, the key thing to realize that all games that start at the
+same health and time values have the same value, regardless of how we got there. So if we
+encounter a game with the same health and time values that we've already solved before
+in some other part of the expansion, we can just reuse the same value and save ourselves
+the work. Since there's only 34 unique values for player health (the integers from 5 to 170
+divisible by 5) and only 100 possible turn count values, we have to solve _only at most_
+$$ 34 * 34 * 100 = 144400 $$ games for each of the 3 different subgame types. In the
+computer science world, this trick is called [memoization](https://en.wikipedia.org/wiki/Memoization)
+or [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming).
+
+This is still quite a big number, but at least I can write the value down, which is already
+way better than the expansion count without this trick. It's big enough that I'm just
+writing a program to solve all the nodes that you can see [here](https://github.com/laganojunior/lalaheadpats_code/blob/master/josie_mixup/generate_game_results.py).
+
+# Some results
+
+The full data is a little much to throw up all on a sheet or even just as a plain text file.
+So if you want that, you should just grab the code I posted above and let that run for a bit.
+
+I've taken a sample of the data and generated some sheets and charts [here](https://docs.google.com/spreadsheets/d/1u54LSFOU4JtuN9Xq6uiPigC3kQTB1OilYR27R2lS-uM/edit?usp=sharing).
+I'll only go over some of the data in that sample, so feel free to look over the full sheets
+if you're still curious.
+
+### Bigger health advantages means players take less risk, and vice versa
+
+The first thing I noticed in the data is that values of games converge to some value once
+we got to high enough turn counter values. These charts are showing for the value of the
+games at those converged values.
+
+If we keep one player's health constant, and then decrease the other player's health, we
+can see the effect on player's strategy as the health advantage increases/decreases for
+the attacker or defender.
+
+Here's a sweep on the Switch game where we keep the attacker health at 170 and
+let defender health drop to 0.
+
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1657030062&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1567257166&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1459531483&amp;format=interactive"></iframe>
+{:center: style="text-align: center"}
+_Sweeps on defender health for Switch game holding attacker health constant_
+{:center}
+
+Unsurprisingly, the probability for the attacker winning overall increases as the
+defender's health decreases. An interesting effect is that the player strategies for
+most options are mostly constant. But as the health advantage increases for the attacker,
+the attacker is using switch 2 more and using step in less, and the defender is
+responding by stand blocking less and trying to jab interrupt more (or perhaps the
+attacker is responding to the defender really). Intuitively this makes sense,
+switch 2 for the attacker is the safest option as the worst case scenario is just
+getting jabbed by the defender, while all other options for the attacker can result
+in a lot of damage to the attacker. Meanwhile, the defender is taking more risks by
+jabbing instead of standing because of the threat of a switch 1 of an attacker ending
+the game immediately from a big combo. The attacker actually does increase the probability
+of using switch 1 as the defender's probability to jab spikes up. The spike at ~15
+health is probably because that's the critical health where switch 3 will kill the
+defender, so the defender is jabbing also to stop the switch 3. The overall result is
+as the health advantage widens, the attacker is more willing to just take minor damage
+and the defender is willing to get comboed to try to get more damage onto the attacker.
+
+We can also keep defender health constant at 170 and then sweep attacker's health down
+to 0.
+
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1681337153&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1102849511&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1313249868&amp;format=interactive"></iframe>
+{:center: style="text-align: center"}
+_Sweeps on attacker health for Switch game holding defender health constant_
+{:center}
+
+In this case, as the health advantage for the defender widens, the attacker is
+choosing to transition into the high risk/high reward of the step in game and the
+defender is more than happy to not take any risks here and let the attacker do so.
+
+We can see the nature of the high risk/high reward of the step in game by doing a similar
+sweep there.
+
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1340760411&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1656404570&amp;format=interactive"></iframe>
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=1029576976&amp;format=interactive"></iframe>
+{:center: style="text-align: center"}
+_Sweeps on attacker health for Step in game holding defender health constant_
+{:center}
+
+At some health disadvantage, the attacker gets _desperate_. The attacker forgoes the
+mostly safe option of doing step in 4 (which only leads to a switch game for the 
+defender if blocked), for a coin flip between the low step in 3 which gives frame advantage
+for the attacker if hit and the mid step in 2
+which leads to a high damage combo if hit or the mid step in 1+2 which gives the turn
+back to the attacker even if blocked. The problem with all of these options for the attacker
+is that every single one of them leads to the attacker being comboed if the defender guesses
+correctly! It's the definition of a high risk/high reward game.
+
+The interesting thing is that the defender barely changes the strategy even as the attacker
+switches to the high risk/high reward strategy. they're more than willing to let
+the attacker hang themselves, probably because the odds of this game are in the
+defender's favor in these health advantages. The increase of the defender jabbing at 5
+health is probably just due to the jab hitting being an instant win for the
+defender at that point.
+
+### Time pressure can also lead to taking higher risks
+
+So we see that attacker completely changes strategies as the attacker
+needs to overcome a health disadvantage. A low amount of turns remaining can also lead
+to similar pressure on the attacker. Here's a sweep on the step in subgame keeping the
+defender health constant and letting the attacker health go to 0. But we're noting the
+first time as the number of turns left decreases that the attacker first considers
+using the high risk/high reward step in 2 option.
+
+<iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=952405683&amp;format=interactive"></iframe>
+
+Interestingly, even at moderate health disadvantages, the attacker is willing to take
+risks to attempt to get big damage on the defender to get the life lead back before
+time runs out.
+
+### Being the attacker is a minor advantage, more so in low health situations
+
+We can calculate the value of being the attacker in a situation by calculating the
+difference of win probability over the situation where the attacker was the defender
+instead (and swapping the health values). Here are some of the gains of win probability
+over different health values for all 3 game types
+
+|         | Defender health 170 |  Defender health 120 | Defender Health 70 | Defender Health 20 |
+| Attacker health 170 |  0.008  |  0.008 |  0.006 | 0.002 |
+| Attacker health 120 |  0.008  |  0.01  |  0.009 | 0.005 | 
+| Attacker health  70 |  0.006  |  0.009 |  0.014 | 0.013 |
+| Attacker health  20 |  0.002  |  0.005 |  0.013 | 0.022 | 
+{:center: style="text-align: center"}
+_Gain in win probability for being the attacker in Minor advantage over being the defender_
+{:center}
+
+|         | Defender health 170 |  Defender health 120 | Defender Health 70 | Defender Health 20 |
+| Attacker health 170 |  0.014  |  0.014 |  0.011 | 0.005 |
+| Attacker health 120 |  0.014  |  0.016 |  0.016 | 0.011 |
+| Attacker health  70 |  0.011  |  0.016 |  0.024 | 0.028 |
+| Attacker health  20 |  0.005  |  0.011 |  0.028 | 0.046 |
+{:center: style="text-align: center"}
+_Gain in win probability for being the attacker in Switch over being the defender_
+{:center}
+
+|         | Defender health 170 |  Defender health 120 | Defender Health 70 | Defender Health 20 |
+| Attacker health 170 |  0.026  |  0.025 |  0.019 | 0.012 |
+| Attacker health 120 |  0.025  |  0.03  |  0.029 | 0.025 |
+| Attacker health  70 |  0.019  |  0.029 |  0.038 | 0.057 |
+| Attacker health  20 |  0.012  |  0.025 |  0.057 | 0.126 |
+{:center: style="text-align: center"}
+_Gain in win probability for being the attacker in Step in over being the defender_
+{:center}
+
+The advantage just for being the attacker instead of the defender at high healths is low,
+but the advantage increases as both players get to low health values. This is probably
+because at low health values, the next player that does damage first will win the game, and
+the current attacker is favored in doing the next damage.
