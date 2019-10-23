@@ -165,7 +165,10 @@ Josie's launching move from a ducking guard is 13 frames to startup, which means
 a defending Josie can actually block punish a step in 3 from an attacking Josie with
 a launching combo.
 
-[Illustration of hit/block stun for block recovery]
+![Illustration of attack with slow recovery and defender being able to punish](/assets/josie_mixup/frame_advantage_2.png){: style="margin: 0 auto; display: block"}
+{:center: style="text-align: center"}
+_A timeline where the defender is able to punish an attacking move with slow recovery_
+{:center}
 
 For pretty much any fighting game that is played at all, people have gone through
 the effort of measuring the frame properties of all moves through various hit/block
