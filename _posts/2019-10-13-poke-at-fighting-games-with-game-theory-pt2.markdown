@@ -49,7 +49,7 @@ In this post, I'll briefly go over:
 * making up a game with interconnected subgames using frame advantage to reason about transitions
 * solving the overall game via a computer program and looking at the results
 
-## Frame advantage
+## What is a frame?
 
 If you spend any time trying to get into fighting games, you'll probably hear the words
 "frame"-something at some point. "Frame advantage", "Frame-perfect", "Frame trap",
@@ -63,71 +63,107 @@ of motion. Many televisions and movies play at a rate of around 25 frames per se
 at a rate of at least 60 frames per second, and many high end displays go up to 100-200
 frames per second.
 
-Fighting games for the most part have standardized to some constant frames per second,
-typically 60 frames per second. Every move takes some amount of frames of animation to
+Fighting games typically run at a fixed frame rate for predictable result,  60 frames
+per second being a common choice. Every move takes some amount of frames of animation to
 display, so fighting game players measure how long a move takes to execute by how many
 frames the animation takes. That is, frames are just used as a convenient unit for time.
 
 For example, in Tekken 7, jabs are 10 frames. These are the fastest moves in the
-game. The kick I used to show the switch transition for Josie (downforward (df) 4) in the
-previous post takes 14 frames to execute. So a jab will beat the switch transition 
-kick every time if they both start at the same time.
+game. The kick I used to show the switch transition for Josie (downforward 4) in the
+previous post takes 14 frames to execute [Footnote]. So a jab will beat the switch transition 
+kick every time if they both start at the same time. However, if the jab is started slower than
+4 frames after the switch kick started, the switch kick hits first. If the jab is somehow
+started exactly 4 frames after the switch kick started, the two attacks actually hit at the same
+time.
 
-[ Illustration of josie getting beat on switch kick ]
+<iframe src='https://gfycat.com/ifr/unnaturallankyaegeancat?autoplay=0'
+        style="margin: 0 auto; display: block"
+        frameborder='0'
+        scrolling='no'
+        allowfullscreen
+        width='640'
+        height='453'>
+</iframe>
+{:center: style="text-align: center"}
+_A demonstration of what happens if a jab is started by a defender exactly 4 frames,
+more than 4 frames, and less than 4 frames after a switch kick started by the attacker._
+{:center}
 
-Note that this is only true if the two attacks started out at the same time. If the switch
-transition kick started 5 frames before the jab, then the switch transition kick would
-hit first instead.
+So there's actually a ~4 frame window where a player can see the start of the kick, start
+a jab after the kick and then hit the opponent first _even though they attacked last_.
+However, that's way too fast for a human to react to. A human is only able to
+react to a visual signal of about ~20 frames or more. Even then reacting properly in a timescale
+of this short a length takes a good amount of practice and focus. So the question of whether
+the switch kick or the jab would hit first still seems arbitrary since the difference is
+imperceptible. But there are situations where a difference of even a single frame does end up being significant.
+This is where the concept of frame advantage comes in.
 
-[ Illustration of switch kick winning instead ]
+## Move properties and frame advantage
 
-Humans generally can't react in the timescale of ~5 frames. So the question of
-whether the switch kick or jab would hit first still seems effectively random if the
-players can just start at any arbitrary frame they choose. But there are situations where
-we _can_ reason about a difference of just a few frames. This is where the concept of
-"frame advantage" comes in.
-
-Every attack has 3 distinct phases, a startup, an active part (the part where the attack
-hits), and a recovery period. An attacker can only do anything again once the recovery period
-ends. If the defender blocks the attack, they are placed into a recovery state
-called "block stun" and they cannot do anything until the block stun period ends.
+Every attack has 3 distinct phases, a startup, an active (the part where the attack
+can hit), then a recovery period. An attacker can only do another action once the recovery period
+ends. If the defender blocks the attack during the active part, they are then placed into a recovery state
+called "block stun" and they cannot do another action until the block stun period ends.
 Similarly, if the defender get hits by the attack instead, they are placed
-into a recovery period called "hit stun" and they cannot attack until the hit stun period 
+into a recovery period called "hit stun" and they cannot do another action until the hit stun period 
 ends.
 
-[ Illustration of the hit/block stun ]
+![Illustration of attack and recoveries](/assets/josie_mixup/frame_advantage.png){: style="margin: 0 auto; display: block"}
 
-The attacker recovery period and the defender's recovery generally don't end at the
+The attacker's recovery period and the defender's recovery period generally do not end at the
 same time. If the attacker recovery period ends before the defender's recovery
-period does, then if the attacker and the defender try to start the exact same attack
-at the time they can each first take another action, the attacker's attack will hit first.
-This situation gives the attacker the "frame advantage".
+period does, then the attacker can take an another action before the defender can. This means that if
+the attacker and the defender try to start the exact same attack at the time they can each first
+take another action, the attacker's attack will actually hit first even if the 2 moves have the same
+startup. In this situation, the attacker is said to have the "frame advantage".
 
-The difference in when the recovery periods ends in expressed in the number of frames in
-favor of the attacker. So if an attacker's recovery period ends 2 frames before the 
-defender's recovery period ends, then the move would be noted as "+2" and the move is 
-generally noted as "+"/"plus". Similarly, if the defender's recovery period
-ends 2 frames before the attacker's recovery period ends, then the 
-move would be noted as "-2" and generally noted as "-"/"minus". Moves typically
-have different frame properties depending on whether the move was blocked, hit the defender,
-or other hit properties depending on the game.
+<iframe src='https://gfycat.com/ifr/pointlessinfiniteaustraliansilkyterrier?autoplay=0'
+        style="margin: 0 auto; display: block"
+        frameborder='0'
+        scrolling='no'
+        allowfullscreen
+        width='640'
+        height='453'>
+</iframe>
+{:center: style="text-align: center"}
+_Josie's 1 attack (a jab) gives the attacker gives a frame advantage of just +1 frame when blocked. So when
+both the attacking and defending josie attempt to do the same move immediately afterward, the
+attacking Josie will hit first._
+{:center}
 
-The resulting frame advantage is typically within +/- 10 frames which is still 
-faster than human reaction. However, the startup + recovery period of the attack adds about 
+<iframe src='https://gfycat.com/ifr/bitterfinishedbufflehead?autoplay=0'
+        style="margin: 0 auto; display: block"
+        frameborder='0'
+        scrolling='no'
+        allowfullscreen
+        width='640'
+        height='453'>
+</iframe>
+{:center: style="text-align: center"}
+_Other the other hand, Josie's 1, 2 attack gives the attacker gives a frame advantage of just -1 frame when blocked,
+which means the defender has advantage. Here when both the attacker and defender do the same move immediately afterward,
+the defending Josie will hit first instead._
+{:center}
+
+The resulting frame advantage of most moves is typically within +/- 10 frames which is still 
+faster than human reaction. However, the startup + recovery period of the attack can add more than
 20 additional frames of visual information before the recoveries end. This gives
 both players enough time to visually read the situation and make a decision
-on what to do with the upcoming frame advantage.
+on what to do with the upcoming frame advantage, even if the frame advantage itself can
+be really small.
 
-[Illustration of the 1 jab frame advantage]
-
-To connect this more with the previous post, I mentioned that some moves are slow enough
+From the previous post, I mentioned that some moves from an attacker are slow enough
 that if blocked that the defender can retaliate with a move before the attacker can recover.
-This is called a "block punish". In this situation, the frame advantage is _so negative_
+This is called a "block punish". In this situation, the frame advantage is so negative
 that the defender can recover, start an attack, and hit the attacker
-all before the attacker's recovery period ends from the first move. For example,
-Josie's step in 3 is -13 frames on block, and Josie's launching move from a duck guard
-is 13 frames to startup, which means that Josie can block punish
-a step in 3 from another attacker Josie with a launching combo.
+all before the attacker's recovery period ends from the first move. The defender has enough time
+to recognize the situation during the attack and recovery period to take advantage of the
+upcoming frame advantage and input the proper response to punish the attacker.
+
+For example, Josie's step in 3 is -13 frames on block and must be blocked ducking.
+Josie's launching move from a ducking guard is 13 frames to startup, which means that
+a defending Josie can actually block punish a step in 3 from an attacking Josie with
+a launching combo.
 
 [Illustration of hit/block stun for block recovery]
 
