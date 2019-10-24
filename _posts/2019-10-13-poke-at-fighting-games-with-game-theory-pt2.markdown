@@ -24,7 +24,7 @@ effective decisions. The concept of maximizing over playing several repeated ide
 subgames doesn't apply here.
 
 Also if we're going to be considering repeated plays, who gets to be the attacker on each
-subgame? Do we just take turns sequentially like gentle(wo)men? Of course not! In
+subgame? Do we just take turns one after each other like gentle(wo)men? Of course not! In
 fighting games, people will absolutely crush you without you even feeling you got a chance
 to play if you let them. Professionals don't even go easy on little kids.
 
@@ -33,21 +33,21 @@ to play if you let them. Professionals don't even go easy on little kids.
 </figure>
 
 {:center: style="text-align: center"}
-_Progamer Justin Wong is always willing to teach little kids how to play_
+_Progamer Justin Wong is always willing to give his time teaching valuable lessons about the real world to little kids._
 {:center}
 
 A fighting game is so fast and frantic and it may seem that the concept of turns
 doesn't apply at all. But if you watch any tournament commentary, they'll say
-phrases like "taking/stealing/losing their turn". Or they'll something more
-indirect such as "got caught pressing buttons" or
-"fell for the frame trap", which really just means someone did something out of
-turn. So turns in some form do exist in fighting games.
+phrases like "taking their turn" or "stealing the turn". Or they'll something more
+indirect, but still related to turns such as "got caught pressing buttons" or
+"fell for the frame trap". These phrases will make more sense later in this post.
 
 In this post, I'll briefly go over:
 
 * what turn taking in fighting games means by covering the concept of frame advantage
 * making up a game with interconnected subgames using frame advantage to reason about transitions
-* solving the overall game via a computer program and looking at the results
+* adjusting the game to calculate overall winning percentages instead of just damage values
+* solving the overall game via a computer program and looking at some results
 
 ## What is a frame?
 
@@ -70,7 +70,7 @@ frames the animation takes. That is, frames are just used as a convenient unit f
 
 For example, in Tekken 7, jabs are 10 frames. These are the fastest moves in the
 game. The kick I used to show the switch transition for Josie (downforward 4) in the
-previous post takes 14 frames to execute [Footnote]. So a jab will beat the switch transition 
+previous post takes 14 frames to execute [^1]. So a jab will beat the switch transition 
 kick every time if they both start at the same time. However, if the jab is started slower than
 4 frames after the switch kick started, the switch kick hits first. If the jab is somehow
 started exactly 4 frames after the switch kick started, the two attacks actually hit at the same
@@ -140,7 +140,7 @@ attacking Josie will hit first._
         height='453'>
 </iframe>
 {:center: style="text-align: center"}
-_Other the other hand, Josie's 1, 2 attack gives the attacker gives a frame advantage of just -1 frame when blocked,
+_On the other hand, Josie's 1, 2 attack gives the attacker gives a frame advantage of just -1 frame when blocked,
 which means the defender has advantage. Here when both the attacker and defender do the same move immediately afterward,
 the defending Josie will hit first instead._
 {:center}
@@ -170,6 +170,21 @@ a launching combo.
 _A timeline where the defender is able to punish an attacking move with slow recovery_
 {:center}
 
+<iframe src='https://gfycat.com/ifr/celebratedcookedbarasinga?autoplay=0'
+        style="margin: 0 auto; display: block"
+        frameborder='0'
+        scrolling='no'
+        allowfullscreen
+        width='640'
+        height='453'>
+</iframe>
+{:center: style="text-align: center"}
+_Josie block punishing a step in 3 with a 13 frame launcher from a duck guard. Note that the 13 frame startup
+is for just the first move immediately following the guard. The defender can't take any action during the rest
+of the combo afterward, so the startup of the following moves of the attacker don't really matter as long
+as the combo continues._
+{:center}
+
 For pretty much any fighting game that is played at all, people have gone through
 the effort of measuring the frame properties of all moves through various hit/block
 situations. I'll be using the frame numbers (for Josie) in
@@ -182,41 +197,41 @@ recommend [checking out that channel as well](https://www.youtube.com/watch?v=_R
 
 ## Converting frame advantage to turns and transitions
 
-So how does the concept of frame advantage relate to the concept of turns? We'll be
-considering the player who has the positive frame advantage as taking the turn as the
-"attacker". The player with negative frame advantage would be taking a risk
-to do anything other than just block, because any move from a negative frame advantage
-would lose from the fastest move (a jab) from the attacker.
+So how does the concept of frame advantage relate to the concept of turns? The player
+with the positive frame advantage is usually the player that taking the turn. As we
+saw in the previous section, the player with the positive frame advantage has better
+outcomes than the other player, even if the two players select the same option. So
+we'll just consider the player with the positive frame advantage as the "attacker"
+and the other player as the "defender".
 
-Consider the game from the previous post, the Josie v Josie matchup, starting from a
-switch stance transition. However, does _any_ frame advantage automatically mean that
-the attacker can just go into switch stance? The transition attack that I used
-to transition to switch stance takes 14 frames to start [Footnote], and an
-opposing jab takes only 10 frames to hit. So if the attacker's frame advantage
-is less than +4 frames, the defender can jab to prevent an switch stance transition.
+In the previous post, I just assumed that the game started with the attacking Josie
+transitioning into switch stance from a kicking move. However, does having frame advantage,
+no matter how small, allow the attacker to just transition into switch stance at will?
+As we saw in the previous section, the kick to transition to switch stance takes 14 frames to
+start, so trying to use this move with a frame advantage of less than +4 frames leaves
+the possibility for the defender to interrupt the transition with a jab.
 
-So how does the attacker get into switch stance from the first place? Let's assume that
-that the attacker is in a minor frame advantage, and just keeps attacking using the jab. The
-jab is 10 frames, and is +1 on block. The defender can't just try to jab to stop a
-switch stance transition because they'll just get hit by an attacking jab instead.
-In fact, Josie's jab is +8 on hit, so if the defender gets hit by a jab,
-the attacker can then go into switch stance without worrying about the jab interrupt.
-So the defender has a reason to just stand there and block the jabs, which gives
-the window for the attacker to just go straight into switch stance instead.
-This basic interaction with the jab is so much of the basis of the offensive game in
-Tekken 7 that Tekken great JDCR [made a video just on how important
+So how does the attacker get into switch stance from the first place? The
+jab is 10 frames, and is actually +1 on block. This means that an attacker just spamming
+jab into a defenders guard will always a frame advantage. If the defender tries to
+interrupt with a jab, they'll simply just get hit. Josie's jab is +8 on hit as well,
+so if the jab ever hits, the attack can then go into switch stance without the defender
+being able to interrupt it with their own jab. This situation is called a "frame trap" for
+the defender and the defender is incentivized to "not press buttons", i.e. don't do any attacks
+and just stand there and block. [^6] This gives the attacker the opening to
+transition into switch stance instead. This basic interaction with the jab is so fundamental
+to the offensive game in Tekken 7 that Tekken great JDCR [made a video just on how important
 the jab is](https://www.youtube.com/watch?v=7bzQboSDHjU).
 
 Turns aren't so absolute though. The defender can avoid the attackers jab to not get
 into block stun in the first place, for example by ducking and doing a jab from a ducking
-position (a "duck jab"). If the defender successfully counters an attacker's jab in this way,
-the defender then secures the frame advantage and thus the turn as the attacker for themselves.
-This kind of move is referred to as "stealing the turn" or a "challenge" from the defender.
+position (a "duck jab"). If the defender successfully responds to an attacker's jab in this way,
+the defender then secures the positive frame advantage and thus the turn as the attacker for themselves.
+This kind of move is referred to as "stealing the turn" or just a "challenge" from the defender.
 However, a duck jab is risky because the attacker can counter the duck jab with a low
-parry combo. [Footnote]
+parry combo. [^2]
 
-We can construct a subgame which I call the "minor advantage game" (for frame advantages < 4)
-with these options, with these abstract outcomes.
+We can construct this subgame which we'll call the "minor advantage game" (for positive frame advantages < 4).
 
 |                 | Stand   | Jab         | Duck Jab |
 |:-----           |:--------|:------      |:-----    |
@@ -227,17 +242,17 @@ with these options, with these abstract outcomes.
 _Minor advantage game with abstracted outcomes_
 {:center}
 
-To govern the transitions more concretely, I'll assume these rules [Footnote]:
+To describe transitions more concretely, I'll assume these rules [^3]:
 
 * Any player will not try to challenge from a frame disadvantage of -4 frames or lower. The 
-player with frame advantage goes into switch stance as the attacker and the other player blocks 
-the kick that goes into switch. Note that this means that the kick to transition into switch is
-always itself blocked.
+player with positive frame advantage immediately goes into switch stance as the attacker and the other player blocks 
+the kick that goes into switch. Note that this means that the kick to transition into switch will
+never itself hit.
 * Any time a player is comboed or is otherwise knocked down onto the ground, the 
 position is reset to a minor advantage for the player that did the combo or knocked
 down the other player.
 
-So we can express this game with direct transitions into other games:
+So we can express the minor advantage game with direct transitions into other games, including instance of itself.
 
 |                 | Stand   | Jab         | Duck Jab |
 |:-----           |:--------|:------      |:-----    |
@@ -249,7 +264,7 @@ _Minor advantage game with direct subgame transitions_
 {:center}
 
 I can do the same for the game I presented in the last blog post. I'll go ahead and split the
-game up into 2 separate subgames for the switch and step in subgames.
+game up into 2 separate subgames for the switch and options following a step in.
 
 |                 | Stand       | Duck/Low Parry    | Jab      | Launch |
 |:-----           |:--------    |:------  |:-----    |:-------|
@@ -265,11 +280,10 @@ _Switch game with direct subgame transitions_
 
 For the step in sub game, I'll be adding a few more options that I didn't include in the last 
 post. I'll be allowing the defender to also jab after seeing the attacker committing to a 
-step in, which can interrupt an attacking step in 3 and float combo an attacking 1+2 as the
-attacker is jumping during that attack. Step in 2 will still duck under the jab and launch the 
+step in. This defending jab can interrupt an attacking step in 3 (similar to switch 3) and
+float combo an attacking 1+2 (similar to switch 4). Step in 2 will still duck under the jab and launch the 
 defender for a combo. As an additional option to beat the jab, the attacker
-now has access to step in 4, which is a fast mid kick that can be timed to beat the jab 
-that interrupts the step in 3 or 1+2. [Footnote]
+can do step in 4, which is a fast mid kick that can be timed to beat the jab. [^4]
 
 |                 | Stand       | Duck    | Jab      |
 |:-----           |:--------    |:------  |:-----    |
@@ -282,19 +296,25 @@ that interrupts the step in 3 or 1+2. [Footnote]
 _Step in game with direct subgame transitions_
 {:center}
 
-## Calculating win probabilities and chaining subgames into bigger games
+So we have an idea of how subgames can transition into other subgames, but how do we reason about this? There's no
+numbers here to even try to solve Nash Equilibria on! We'll be covering how to start adding values to each cell in these
+matrices in the next section.
+
+## Calculating win probabilities and chaining smaller subgames into larger games
 
 One of the problems with the previous post's model is that I was just using damage values without any consideration
-for remaining health and players trying to win the game through depleting the other player's health pool. Let's consider
-a situation where both players have only 5 health (so any hit would win the game) and one player is in switch stance (so we're playing
-the switch subgame). Furthermore, let's assume that this is the last turn of the overall game, and that if both players are still alive
-by the end, the player with the higher health total will win the game. If both players have the same health, then the winner of the game
-is chosen by a coin flip.
+for remaining health or even the win condition of the game that's about depleting the other player's health to 0.
+For example, consider a situation where both players have only 5 health, so any hit from either the attacker
+or defender would just win the game. In this case, we don't really care how much damage our hit does!
+
+So let's consider this sudden death scenario and let the attacker already be in switch stance. Furthermore, let's assume that
+this is the last turn of the overall game, and that if both players are still alive by the end, the player with the higher health
+total will win the game. If both players have the same health, then the winner of the game is chosen by a coin flip.
 
 We can make a payoff matrix where the values are the probability of winning for the attacker instead of damage values. Any of the
-situations where the attacker gets a hit is a win for the attacker, so probability 1 for the attacker to win the game. Any hit for
-the defender is a win for the defender, so probability 0 for the attacker to win the game. Any other situation is a draw and
-coin flip to decide the winner.
+situations where the attacker gets a hit is a win for the attacker, so the value of that cell is 1. Any hit for
+the defender is a win for the defender, so the value of that cell is 0. Any other situation is a draw and
+coin flip to decide the winner, so the value of that cell is 0.5.
 
 | Switch (5, 5, 1)| Stand       | Duck/Low Parry    | Jab      | Launch |
 |:-----           |:--------    |:------            |:-----    |:-------|
@@ -304,7 +324,7 @@ coin flip to decide the winner.
 | Switch 4        | 0.5         | 0                 | 1        |       1|
 | Step in         | 0.5         | 0.5               | 0.5      |       0|
 
-We can solve for this game's nash equilibrium and get that this as a solution:
+We can solve for this game's Nash equilibrium and get this solution:
 
 |                   | Defender strategy | 0.231       | 0.385             | 0.385    |      0 |                                |
 | Attacker strategy | Switch (5, 5, 1)  | Stand       | Duck/Low Parry    | Jab      | Launch |  Value given defender strategy |
@@ -316,8 +336,8 @@ We can solve for this game's nash equilibrium and get that this as a solution:
 |          0.189    | Step in           | 0.5         | 0.5               | 0.5      |       0|     0.501                      |
 |                   | Value given attacker strategy  | 0.500 | 0.500 | 0.500 | 0.813 |
 
-So we get that the value of this switch subgame at (attacker health, defender health, turns left) = (5, 5, 1) to be about 0.500. We can do a similar calculation
-for the minor advantage subgame at (attacker health, defender health, turns left) = (5, 5, 1).
+So we get that the value of this switch subgame at (attacker health, defender health, turns left) = (5, 5, 1) to be about 0.500.
+We can do a similar calculation for the similar setting, but where the attacker is only at a minor advantage.
 
 |                   | Defender strategy              |   1         |   0               | 0        |                                |
 | Attacker strategy | Minor Advantage (5, 5, 1)      | Stand       | Jab               | Duck Jab |  Value given defender strategy |
@@ -329,11 +349,11 @@ for the minor advantage subgame at (attacker health, defender health, turns left
 
 This is only 1 of many solutions because the game collapses to the defender standing there 100% of the time, which just makes the game a draw
 no matter what the attacker does, except the attacker needs to choose a strategy such that the defender doesn't want to do anything else.
-The end result is that the game is an overall draw.
+The end result is that this subgame is an overall draw.
 
-So now let's consider the step in game where (attacker health, defender health, turns left) = (5, 5, 2). We're still in sudden death life values,
-but we're allowing for another subgame after this one in case nothing hit. We now get a payoff matrix that depends on the values on possible future
-games. Note that if the turn passes to the defender, we have to invert the probability back to the perspective of the attacker. For example, if a
+Now let's consider the step in game where (attacker health, defender health, turns left) = (5, 5, 2). We're still in sudden death life values,
+but we're allowing for another subgame after this one in case no attack hit in the first turn. We now get a payoff matrix that depends on the values on
+possible future games. Note that if the turn would pass to the defender, we have to invert the probability back to the perspective of the attacker. For example, if a
 transition to another game would have the defender winning 75% in that other game, the attacker's payoff here for going into that transition would be 25%.
 
 | Step in (5, 5, 2) | Stand                      | Duck              | Jab      |
@@ -343,7 +363,7 @@ transition to another game would have the defender winning 75% in that other gam
 | Step in 4         | 1 - switch (5, 5, 1)       |  1                | 1        |
 | Step in 1+2       | minor advantage (5, 5, 1)  |  1                | 0        |
 
-The 2 subgame values we depend on are the values we just already calculated earlier! We can plug those in, and then solve for the Nash equilibria for this
+The 2 subgame values we depend on are the values we just calculated earlier. We can plug those in, and then solve for the Nash equilibria for this
 new game.
 
 |                       | Defender Strategy | 0.667                            | 0.127             | 0.207    |                               |
@@ -355,12 +375,12 @@ new game.
 |   0                   | Step in 1+2       | minor advantage (5, 5, 1) = 0.5  |  1                | 0        |    0.461                      |
 |                       | Value given attacker strategy | 0.667                | 0.667             | 0.667    |
 
-So the Nash equilibrium probability of the attacker winning from step in (5, 5, 2) is about 66%. We can use the same idea to solve the smaller
-games with low health values and low turns left to construct payoff matrices for the subgames with higher healths (using damage values for health
-transitions) and solving those Nash equilibria as well. This construction should give us a Nash equilibria for any larger health values
-and turn count that we may want [Footnote about subgame perfect Nash Equilibria].
+So the Nash equilibrium value for the attacker from step in (5, 5, 2) is about 66%. We can use this concept of linking smaller game solutions
+to construct payoff matrices for subgames with higher healths or turn counts, using damage values and frame advantages to inform health remaining
+values and game types. This construction will give us a Nash equilibria for any game starting at larger health values and turn count that we may want
+[^5].
 
-So to solve the entire game, we first define some base rules that describes turns running out or either player running out of health.
+So to solve the entire game, we first define some base game results that describes turns running out or either player running out of health.
 
 $$
 \text{any_game}(x, y, t \leq 0) =
@@ -379,8 +399,10 @@ $$
 To solve any other game, we define the payoff matrix dependent on the values of other subgames and get the Nash equilibrium value. Note that if
 the turn passes the defender, we have to switch the values after accounting for any damage that may have been taken. We use the transition rules
 we defined earlier when talking about frame advantage and transitions. Note that since the turn counter is always decreasing, the game must end
-at some point leading us to one of the base rules we defined just above. So the chains of dependencies must end eventually and we
-can use this to solve any game we want.
+eventually leading us to one of the base game results we defined just above. So the chains of dependencies must end, and the calculation will
+eventually finish, giving us our final solution.
+
+Here are the templates for the how to construct payoff matrices for the 3 subgame types for arbitrary health values and turns left
 
 | Minor Advantage (ma) (x, y, t) | Stand             | Jab                     | Duck Jab                   |
 |:-----                          |:--------          |:------                  |:-----                      |
@@ -405,46 +427,53 @@ can use this to solve any game we want.
 
 ## Calculating the overall solution
 
+Let's apply all of this to get solutions for a game that somewhat resembles a real game.
 For the overall game, the 2 players start at 170 health each. I'll set the starting
 turn count to 100 to simulate the round timer. Also, I'll
 just assume some player starts off in a minor frame advantage in the first turn.
 
 Given all of the transition tables above, we have a method to solve this game. We just have to
 extend to transitions out from the overall game, extend to transitions from those
-transitions, and so on, until we hit a base rule (time running out or any player
+transitions, and so on, until we hit a base result (time running out or any player
 going to 0 health). The problem is that the number of subgames we have to solve gets quite large.
 Like _exponentially large_ [Footnote].
 
-To make solving this feasible, the key thing to realize that all games that start at the
-same health and time values have the same value, regardless of how we got there. So if we
+To make calculating the solution feasible, the key thing to realize that all games that start at the
+same health and time values have the same solution, regardless of how we got there. So if we
 encounter a game with the same health and time values that we've already solved before
 in some other part of the expansion, we can just reuse the same value and save ourselves
 the work of doing it again. Since there's only 34 unique values for player health (the integers from 5 to 170
 divisible by 5) and only 100 possible turn count values, we have to solve _only at most_
 $$ 34 * 34 * 100 = 144400 $$ games for each of the 3 different subgame types. In
 computer science parlance, this trick is called [memoization](https://en.wikipedia.org/wiki/Memoization)
-or [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming).
+or [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming). This is a generally useful
+way to transform problems with large amounts of sub-calculations into something reasonable by taking
+advantage of some shared structure in the sub-calculations.
 
-This is still quite a big number, but at least I can write the value down, which is already
-way better than the subgame count without this trick. It's still big enough that I'm just
-writing a program to solve all the nodes that you can see [here](https://github.com/laganojunior/lalaheadpats_code/blob/master/josie_mixup/generate_game_results.py).
+This is still quite a big number, but at least I can write the value down here, which is already
+way better than the subgame count without this trick. It's still big enough that I'm not even going to try
+to any of it by hand. I'm just writing a small program to solve all the subgames that you can see
+[here](https://github.com/laganojunior/lalaheadpats_code/blob/master/josie_mixup/generate_game_results.py).
 
 ## Some results
 
-The full data is a little much to throw up all on a sheet or even just as a plain text file.
-So if you want all the data, you should just grab the code I posted above and let it run for a bit.
+The full data is a little much to throw up all on a single sheet or even just as a plain text file.
+So if you want all the data, you should just grab the code I posted in the above section and let it run for a bit.
 
 I've taken a sample of the data and generated some sheets and charts
 [here](https://docs.google.com/spreadsheets/d/1u54LSFOU4JtuN9Xq6uiPigC3kQTB1OilYR27R2lS-uM/edit?usp=sharing).
 I'll only go over some of the data in that sample, so feel free to look over the full sheets
 if you're still curious.
 
-### Bigger health advantages means players take less risk, and vice versa
+### When there's lot of time left, time doesn't really matter
 
 The first thing I noticed in the data is that values of games converge to some value once
 we got to high enough turn counter values. That is, at large enough time left, the probability of the
-attacker winning is about the same even if you add some extra time. These charts are showing
-the value of the games at large amounts of time left.
+attacker winning is about the same even if you add a little bit of extra time.
+
+Many of these charts are showing the value of the games at large amounts of time left, except when otherwise noted.
+
+### Bigger health advantages means players take less risk, and vice versa
 
 If we keep one player's health constant, and then decrease the other player's health, we
 can see the effect on player's strategy as the health advantage increases/decreases for
@@ -462,18 +491,19 @@ _Sweeps on defender health for Switch game holding attacker health constant_
 
 Unsurprisingly, the probability for the attacker winning overall increases as the
 defender's health decreases. An interesting result is that the strategy probabilities for
-most options are mostly constant. But as the health advantage increases for the attacker,
-the attacker is using switch 2 more and using step in less, and the defender is
-correspondingly stand blocking less and trying to jab interrupt more. Intuitively
-this makes sense, switch 2 for the attacker is the safest option as the worst case
-scenario is just getting jabbed by the defender, while all other options for the attacker
-can result in the attacker getting comboed.
+most options for both the attacker and the defender don't change very much.
+But as the health advantage increases for the attacker, the attacker is using switch 2 more
+and using step in less, and the defender is correspondingly stand blocking less and trying to
+jab interrupt more. Intuitively this makes sense, switch 2 for the attacker is the safest option
+as the worst case scenario is just getting jabbed by the defender, while all other options for
+the attacker can result in the attacker getting comboed.
 
 Meanwhile, the defender is taking more risks by jabbing instead of standing because of
 the threat of an attacking switch 1 leading to a game ending big combo. The attacker actually
 does increase the probability of using switch 1 as the defender's probability to jab spikes up.
-The spike at ~15 health is probably because that's the critical health where switch 3 will kill the
-defender, so the defender is jabbing also to stop the switch 3.
+The spike of the defender jabbing even more at ~15 health is probably because that's the 
+critical health value where switch 3 will kill the defender, so the defender is jabbing also
+to stop the switch 3.
 
 The overall result is as the health advantage widens, the attacker is more willing to
 just take minor damage taking the safer option and the defender is more willing to get comboed
@@ -503,19 +533,20 @@ We can do a similar sweep of the step in game.
 _Sweeps on attacker health for Step in game holding defender health constant_
 {:center}
 
-At some point, the attacker completely changes the plan. The attacker forgoes the
-mostly safe option of doing step in 4, which can't lead to a combo for either the attacker
-or defender. Insetead, the attacker opts for a coin flip between the low step in 3
-which gives frame advantage for the attacker if hit and the mid step in 2
-which leads to a high damage combo if hit or the mid step in 1+2 which gives the turn
-back to the attacker even if blocked. The problem with all of these options for the attacker
-is that every single one of them leads to the attacker being comboed if the defender guesses
-correctly! It's the very definition of a high risk/high reward game.
+At high enough health values, the attacker is mostly doing step in 4, which is a completely safe move and only
+really leads to the defender going into switch stance if blocked. The main mixup being the uncommon step in 3
+option to incentivize the defender into ducking or a step in 1+2 to try to get a positive frame advantage and
+thus the overall turn.
+
+We can see that at some low enough health value, the attacker completely changes the strategy. The attacker
+no longer does step in 4, but ramps up the usage of step in 3 much more and adds in the step in 2 that can
+launch the defender for a big combo. However, all of these options lead to the attacker taking a big combo
+if the defender guards the correct way. The attacker is now opting for a high risk/high reward coin flip.
 
 The interesting thing is that the defender barely changes the strategy even as the attacker
 switches to the high risk/high reward strategy. The defender is more than willing to let
-the attacker hang themselves, probably because the odds of this game are in the
-defender's favor in these health advantages. The increase of the defender jabbing at 5
+the attacker take risky actions and hang themselves, probably because the odds of this game are in the
+defender's favor in the long run. The increase of the defender jabbing at 5
 health for the attacker is probably just due to the jab hitting being an instant win for the
 defender at that point.
 
@@ -523,15 +554,15 @@ defender at that point.
 
 So we see that attacker completely changes strategies as the attacker
 needs to overcome a health disadvantage. A low amount of turns remaining can also lead
-to similar pressure on the attacker. Here's a sweep on the step in subgame keeping the
-defender health constant and letting the attacker health go to 0. But we're noting the
+to similar pressure on the attacker, even at higher health values. Here's a sweep on the step in subgame
+keeping the defender health constant and letting the attacker health go to 0. But we're noting the
 first time as the number of turns left decreases that the attacker first considers
 using the high risk/high reward step in 2 option.
 
 <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsADqpASmKbz1f96axpkXungKeeDI7J5py9Og45DEK8ObZD5dL9UGoBuXfjgFeepIlHvGXlWB-Ik-g/pubchart?oid=952405683&amp;format=interactive"></iframe>
 
 Even at moderate health disadvantages, the attacker is willing to take
-risks to attempt to get big damage on the defender to get the life lead back before
+risks to attempt to get big damage on the defender to close the life lead before
 time runs out.
 
 ### Being the attacker is a minor advantage, more so in low health situations
@@ -578,13 +609,76 @@ the current attacker is favored in doing the next damage.
 There's quite a bit of questions that I'm still curious about, such as the amount of turns
 the game is expected to last in this model. My guess is that many of the games actually end
 up taking up many turns or even ending up in timeouts since it seems that the prevalent
-strategies are pretty safe and it's rare for a player to get a combo. But that'll take some
-more coding to take in the data to do some calculations. If you're interested in that
-question (or any other question on your mind!), feel free to
+strategies are pretty safe and it's rare for a player to get a combo. But that would take some
+more coding to take in the data to do some calculations which I didn't want to do just yet.
+
+If you're interested in those question (or any other question on your mind!), feel free to
 [take the code](https://github.com/laganojunior/lalaheadpats_code/tree/master/josie_mixup)
-and play around with it!
+and play around with it yourself and share your results!
 
 If you have any questions, comments, or just want to say hi, feel free to email me at
 me@lalaheadpats.com. One day, I'll get a commenting system up....
 
 ## Footnotes
+
+[^1]:
+    Josie has more options to get into switch stance, some of which actually start off faster than
+    the 14 frame option. However, all of those other options have the kick going high, which the
+    defender can then duck to nullify the advantage of the switch transition. So the 14 frame downforward
+    4 move is the simplest and safest way to get into switch stance from a neutral position.
+
+[^2]:
+    There are other ways for the defender to dodge the jab, such as stepping to the side or backing
+    away from the attacker. Both of these options are much safer for the defender compared to a duck jab
+    that can be low parried for a combo. But people online keep stealing the turn against me by duck jabbing much to my
+    annoyance, so I wanted to see what the results would be if duck jabbing was the turn stealing option of choice.
+
+[^3]:
+    I'm ignoring at least 2 big concepts here, the subgame when one person is knocked down on the ground
+    (the "wakeup" or "okizeme" game), and the subgame of people trying to approach each other because moves
+    have different ranges and the range of jabs can be quite short. For the wakeup game, the player who is on the ground
+    usually is at an disadvantage in most fighting games, except for perhaps the Dead or Alive series
+    where moves from the ground have generous invulnerability properties. So for simplicity, I just compress this
+    wakeup advantage into a reset into a minor advantage for the attacker. This likely reduces the value of
+    moves that lead to knockdowns however. For example, we'll see later that switch 4 is never used by the attacker
+    over switch 2 because switch 2's payoff on hit seems much better than switch 4's knockdown on hit.
+
+[^4]:
+    This is assuming a really specific timing on the defending jab and attacker options during step in.
+    In practice, moves can come out of the attacker or defender in a continuous spectrum for a long time after switch
+    and into step in. For example, an attacker can try to catch a delayed jab from the defender by delaying a switch 1,
+    which this 2 turn game model doesn't really catch. Also, a defender can't really jab immediately during switch
+    to interrupt switch moves and then try to jab again to interrupt catch step in moves, as the attacker's step in
+    moves would hit before the defender can recover from the first jab and start up the second jab. But taking
+    this into account just complicates the transitions, so I just allow it here to make the model simpler.
+
+[^5]:
+    This type of Nash equilibrium is called a "subgame perfect Nash equilibrium". That is, not only is the overall
+    strategy a Nash equilibrium for the overall game, but the strategy is also a Nash equilibrium for all subgames
+    as well. We can construct Nash equilibrium that are not subgame perfect. For example, consider a game where
+    there are 2 players, the first player is asked to split a pot of money between the 2 players, and the second
+    player can either accept or reject the split. If the second player accepts, then both players walk away with
+    the split of money the first player decided on. Otherwise, both players walk away with nothing. Consider if the second
+    player commits to a strategy that threatens to not accept any split that isn't at least 50% of better for them,
+    and the first player just splits at 50% every time. This is actually a Nash equilibrium, because neither player
+    wants to change their overall strategy given the other player's overall strategy. The first player won't ever go
+    down lower than 50% for the second player because of the second player's threat, and the second player won't change
+    their strategy because they're accepting every offer the first player ends up giving.
+    
+    However, this equilibrium is not subgame perfect. In the subgame where the first player instead gives a split that
+    gives less than 50% to the second player, the second player should (in theory at least) back down from the threat and
+    just take the less favorable split since some money is better than no money. In this case, the second player's threat
+    isn't "credible". With the first player taking this into account, the subgame perfect Nash equilibrium ends up being
+    where the first player splits the money with as little as possible going to the second player and the second player
+    accepting any split where they get any money at all.
+
+[^6]:
+    Frame traps can occur whenever a player has positive frame advantage and is an easy way to punish newer players
+    that are a little too happy to keep trying to attack immediately after guarding. The payoff of a frame trap can
+    depend on the frame advantage, since slower moves typically have better payoffs and larger frame advantages can
+    allow these slower moves to hit before even the quickest move from a defender.
+    
+    In many fighting games, the main option for the defender to escape the frame trap other than just guarding
+    properly and waiting for the proper time when the attacker no longer has a frame advantage. Tekken 7 gives some
+    basic options to challenge a frame advantage by movement to the side or ducking since moves that can deal with a sidestep
+    or a duck are generally slower.
