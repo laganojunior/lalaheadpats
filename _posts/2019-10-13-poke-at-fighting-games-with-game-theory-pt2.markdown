@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  A poke at fighting games with game theory part 2 - taking turns
-date: 2019-09-22 00:00:00 -0700
+date: 2019-09-27 00:00:00 -0700
 tags: [tekken, fighting_games, game_theory]
 math: true
 ---
@@ -12,18 +12,18 @@ strategies of the 2 players using game theory and Nash equilibria. I'm going to 
 on that topic here, so I recommend browsing through that post first if you haven't already.
 In that post, the game's value was based on the damage swing that occurred due to the
 attacker or defender hitting each other. I was implicitly assuming that the overall goal
-of the game was just to maximize damage over many extended plays. 
+of the game was just to maximize damage over time.
 
 But fighting games don't actually play like that. Health bars are finite and every point
-of damage gets us closer to the someone winning the game. Someone being at low enough health
+of damage gets us closer to the conclusion of the game. Someone being at low enough health
 affects both players' strategies since some lines of play can lead to a player
-immediately winning or losing, or many strategies become identical to others due to damage
-thresholds. In Tekken 7, player health bars start at 170, and when combos can be around
+immediately winning or losing, or many strategy payoffs become identical to others due to damage
+thresholds. In Tekken 7, player health pools start at 170, and when combos can be around
 60-70 damage (or even more depending on the situation), a player may only end up making few
-effective decisions. The concept of maximizing over playing several repeated identical
-subgames doesn't apply here.
+effective decisions before the game is over. The concept of maximizing over playing several
+repeated identical games doesn't seem to apply.
 
-Also if we're going to be considering repeated plays, who gets to be the attacker on each
+Also if we're going to be considering repeated plays, who even gets to be the attacker on each
 subgame? Do we just take turns one after each other like gentle(wo)men? Of course not! In
 fighting games, people will absolutely crush you without you even feeling you got a chance
 to play if you let them. Professionals don't even go easy on little kids.
@@ -40,7 +40,8 @@ A fighting game is so fast and frantic and it may seem that the concept of turns
 doesn't apply at all. But if you watch any tournament commentary, they'll say
 phrases like "taking their turn" or "stealing the turn". Or they'll something more
 indirect, but still related to turns such as "got caught pressing buttons" or
-"fell for the frame trap". These phrases will make more sense later in this post.
+"fell for the frame trap" (which I'll explain later). So there is some concept of turns
+in fighting games somewhere.
 
 In this post, I'll briefly go over:
 
@@ -54,22 +55,25 @@ In this post, I'll briefly go over:
 If you spend any time trying to get into fighting games, you'll probably hear the words
 "frame"-something at some point. "Frame advantage", "Frame-perfect", "Frame trap",
 "1 frame link" etc. are phrases that just thrown around casually in fighting game commentary. 
-But what is a "frame" even?
+But what is a "frame"?
 
-In video games, a frame is one of many still images that come out in rapid succession
-from your monitor or television that are displayed in rapid succession to give the illusion
-of motion. Many televisions and movies play at a rate of around 25 frames per second
+In video games (or anything that's being shown to you over an electronic screen), a frame is
+one of many still images that come out in rapid succession from your monitor or television
+that are displayed in rapid succession to give the illusion of motion. Many televisions
+and movies play at a rate of around 25 frames per second
 (or about a frame every 40 milliseconds). Your computer screen probably refreshes at
 at a rate of at least 60 frames per second, and many high end displays go up to 100-200
 frames per second.
 
-Fighting games typically run at a fixed frame rate for predictable result,  60 frames
+Fighting games typically run at a fixed frame rate for predictable simulations, 60 frames
 per second being a common choice. Every move takes some amount of frames of animation to
 display, so fighting game players measure how long a move takes to execute by how many
-frames the animation takes. That is, frames are just used as a convenient unit for time.
+frames the animation takes. That is, frames are just used as a convenient unit for time
+that happens to be at the level of minimum level of measurement. That is, we don't have
+typically have to worry about something being 4 _and a half_ frames long.
 
-For example, in Tekken 7, jabs are 10 frames. These are the fastest moves in the
-game. The kick I used to show the switch transition for Josie (downforward 4) in the
+For example, in Tekken 7, the game is run at 60 frames per second and jabs are 10 frames (~167 milliseconds)
+These are the fastest moves in the game. The kick I used to show the switch transition for Josie in the
 previous post takes 14 frames to execute [^1]. So a jab will beat the switch transition 
 kick every time if they both start at the same time. However, if the jab is started slower than
 4 frames after the switch kick started, the switch kick hits first. If the jab is somehow
@@ -86,16 +90,17 @@ time.
 </iframe>
 {:center: style="text-align: center"}
 _A demonstration of what happens if a jab is started by a defender exactly 4 frames,
-more than 4 frames, and less than 4 frames after a switch kick started by the attacker._
+more than 4 frames, and less than 4 frames after a switch kick started by the attacker. The difference
+in start time between the jabs is basically imperceptible though._
 {:center}
 
 So there's actually a ~4 frame window where a player can see the start of the kick, start
-a jab after the kick and then hit the opponent first _even though they attacked last_.
-However, that's way too fast for a human to react to. A human is only able to
-react to a visual signal of about ~20 frames or more. Even then reacting properly in a timescale
-of this short a length takes a good amount of practice and focus. So the question of whether
-the switch kick or the jab would hit first still seems arbitrary since the difference is
-imperceptible. But there are situations where a difference of even a single frame does end up being significant.
+a jab after the kick started and then hit the opponent first _even though they attacked last_.
+However, 4 frames is way too little time for a human to react to. A human is only able to
+react to a visual signal of about ~20 frames or more. Even then, reacting properly in a timescale
+of ~20 frames takes a good amount of practice and focus. So the question of whether
+the switch kick or the jab would hit first still seems arbitrary since neither move can be reacted to
+anyway. But there are situations where a difference of even a single frame does end up being significant.
 This is where the concept of frame advantage comes in.
 
 ## Move properties and frame advantage
@@ -108,14 +113,14 @@ Similarly, if the defender get hits by the attack instead, they are placed
 into a recovery period called "hit stun" and they cannot do another action until the hit stun period 
 ends.
 
-![Illustration of attack and recoveries](/assets/josie_mixup/frame_advantage.png){: style="margin: 0 auto; display: block"}
-
 The attacker's recovery period and the defender's recovery period generally do not end at the
 same time. If the attacker recovery period ends before the defender's recovery
 period does, then the attacker can take an another action before the defender can. This means that if
 the attacker and the defender try to start the exact same attack at the time they can each first
-take another action, the attacker's attack will actually hit first even if the 2 moves have the same
+take another action, the attacker's attack will actually hit first even though the 2 moves have the same
 startup. In this situation, the attacker is said to have the "frame advantage".
+
+![Illustration of attack and recoveries](/assets/josie_mixup/frame_advantage.png){: style="margin: 0 auto; display: block"}
 
 <iframe src='https://gfycat.com/ifr/pointlessinfiniteaustraliansilkyterrier?autoplay=0'
         style="margin: 0 auto; display: block"
@@ -145,7 +150,7 @@ which means the defender has advantage. Here when both the attacker and defender
 the defending Josie will hit first instead._
 {:center}
 
-The resulting frame advantage of most moves is typically within +/- 10 frames which is still 
+The resulting frame advantage of most moves is typically within +/- 10 frames, which is still 
 faster than human reaction. However, the startup + recovery period of the attack can add more than
 20 additional frames of visual information before the recoveries end. This gives
 both players enough time to visually read the situation and make a decision
@@ -156,12 +161,12 @@ From the previous post, I mentioned that some moves from an attacker are slow en
 that if blocked that the defender can retaliate with a move before the attacker can recover.
 This is called a "block punish". In this situation, the frame advantage is so negative
 that the defender can recover, start an attack, and hit the attacker
-all before the attacker's recovery period ends from the first move. The defender has enough time
+_all before the attacker's recovery period ends from the first move_. The defender has enough time
 to recognize the situation during the attack and recovery period to take advantage of the
 upcoming frame advantage and input the proper response to punish the attacker.
 
-For example, Josie's step in 3 is -13 frames on block and must be blocked ducking.
-Josie's launching move from a ducking guard is 13 frames to startup, which means that
+For example, Josie's step in 3 is -13 frames on block and can be blocked ducking.
+Josie's launching move from a ducking guard is 13 frames to startup. This means that
 a defending Josie can actually block punish a step in 3 from an attacking Josie with
 a launching combo.
 
@@ -188,9 +193,9 @@ as the combo continues._
 For pretty much any fighting game that is played at all, people have gone through
 the effort of measuring the frame properties of all moves through various hit/block
 situations. I'll be using the frame numbers (for Josie) in
-[rbnorway](http://rbnorway.org/josie-t7-frames/) as a reference in this post. It may seem
-like a lot of numbers to learn, but one can get away with knowing some general
-rules about what type of moves tend to be plus, minus, punishable on hit or block.
+[rbnorway](http://rbnorway.org/josie-t7-frames/) as a reference in this post. For a person
+that is new to fighting games, this may seem like a lot of numbers to learn, but one can get away
+with knowing some general rules about what type of moves tend to be plus, minus, punishable on hit or block.
 
 Core-A-Gaming also made a video on frame advantage and other concepts for beginners, I
 recommend [checking out that channel as well](https://www.youtube.com/watch?v=_R0hbe8HZj0).
@@ -198,10 +203,10 @@ recommend [checking out that channel as well](https://www.youtube.com/watch?v=_R
 ## Converting frame advantage to turns and transitions
 
 So how does the concept of frame advantage relate to the concept of turns? The player
-with the positive frame advantage is usually the player that taking the turn. As we
+with the positive frame advantage is usually the player that is consider to be "taking the turn". As we
 saw in the previous section, the player with the positive frame advantage has better
 outcomes than the other player, even if the two players select the same option. So
-we'll just consider the player with the positive frame advantage as the "attacker"
+we'll consider the player with the positive frame advantage as the "attacker"
 and the other player as the "defender".
 
 In the previous post, I just assumed that the game started with the attacking Josie
@@ -213,18 +218,18 @@ the possibility for the defender to interrupt the transition with a jab.
 
 So how does the attacker get into switch stance from the first place? The
 jab is 10 frames, and is actually +1 on block. This means that an attacker just spamming
-jab into a defenders guard will always a frame advantage. If the defender tries to
-interrupt with a jab, they'll simply just get hit. Josie's jab is +8 on hit as well,
-so if the jab ever hits, the attack can then go into switch stance without the defender
+jab into a defenders guard will always be at a positive frame advantage. If the defender tries to
+interrupt with their own jab, they'll simply just get hit by the attacker's jab. Josie's jab is +8 on hit as well,
+so if the attacker's jab ever hits, the attacker can then go into switch stance without the defender
 being able to interrupt it with their own jab. This situation is called a "frame trap" for
 the defender and the defender is incentivized to "not press buttons", i.e. don't do any attacks
-and just stand there and block. [^6] This gives the attacker the opening to
+and just stand there and block. [^6] This window of inaction is what gives the attacker the opening to
 transition into switch stance instead. This basic interaction with the jab is so fundamental
 to the offensive game in Tekken 7 that Tekken great JDCR [made a video just on how important
 the jab is](https://www.youtube.com/watch?v=7bzQboSDHjU).
 
 Turns aren't so absolute though. The defender can avoid the attackers jab to not get
-into block stun in the first place, for example by ducking and doing a jab from a ducking
+into block stun in the first place, for example by ducking to avoid the attacker's jab and doing a jab from a ducking
 position (a "duck jab"). If the defender successfully responds to an attacker's jab in this way,
 the defender then secures the positive frame advantage and thus the turn as the attacker for themselves.
 This kind of move is referred to as "stealing the turn" or just a "challenge" from the defender.
@@ -242,7 +247,7 @@ We can construct this subgame which we'll call the "minor advantage game" (for p
 _Minor advantage game with abstracted outcomes_
 {:center}
 
-To describe transitions more concretely, I'll assume these rules [^3]:
+To describe transitions more concretely for this and other game types, I'll assume these rules [^3]:
 
 * Any player will not try to challenge from a frame disadvantage of -4 frames or lower. The 
 player with positive frame advantage immediately goes into switch stance as the attacker and the other player blocks 
@@ -252,7 +257,7 @@ never itself hit.
 position is reset to a minor advantage for the player that did the combo or knocked
 down the other player.
 
-So we can express the minor advantage game with direct transitions into other games, including instance of itself.
+So we can express the minor advantage game with direct transitions into other games, including instances of itself.
 
 |                 | Stand   | Jab         | Duck Jab |
 |:-----           |:--------|:------      |:-----    |
@@ -375,10 +380,9 @@ new game.
 |   0                   | Step in 1+2       | minor advantage (5, 5, 1) = 0.5  |  1                | 0        |    0.461                      |
 |                       | Value given attacker strategy | 0.667                | 0.667             | 0.667    |
 
-So the Nash equilibrium value for the attacker from step in (5, 5, 2) is about 66%. We can use this concept of linking smaller game solutions
-to construct payoff matrices for subgames with higher healths or turn counts, using damage values and frame advantages to inform health remaining
-values and game types. This construction will give us a Nash equilibria for any game starting at larger health values and turn count that we may want
-[^5].
+So we get the Nash equilibrium value for the attacker from step in (5, 5, 2) is about 66%. We can use this concept of linking smaller game solutions
+to construct payoff matrices for subgames with higher healths or turn counts. This construction will give us a Nash equilibria for any game
+starting at larger health values and turn count that we may want [^5].
 
 So to solve the entire game, we first define some base game results that describes turns running out or either player running out of health.
 
@@ -397,12 +401,12 @@ $$
 $$
 
 To solve any other game, we define the payoff matrix dependent on the values of other subgames and get the Nash equilibrium value. Note that if
-the turn passes the defender, we have to switch the values after accounting for any damage that may have been taken. We use the transition rules
-we defined earlier when talking about frame advantage and transitions. Note that since the turn counter is always decreasing, the game must end
-eventually leading us to one of the base game results we defined just above. So the chains of dependencies must end, and the calculation will
-eventually finish, giving us our final solution.
+the turn passes to the defender, we have to switch the values after accounting for any damage that may have been taken. We use the transition rules
+we defined earlier when talking about frame advantage and transitions. Since the turn counter is always decreasing, the game must end
+eventually leading us to one of the base game results we defined just above. So the chains of dependencies must end no matter how the big the game
+was initially, so the calculation will eventually finish, giving us our final solution.
 
-Here are the templates for the how to construct payoff matrices for the 3 subgame types for arbitrary health values and turns left
+Here are the templates for the how to construct payoff matrices for the 3 subgame types for arbitrary health values and turns left.
 
 | Minor Advantage (ma) (x, y, t) | Stand             | Jab                     | Duck Jab                   |
 |:-----                          |:--------          |:------                  |:-----                      |
@@ -436,9 +440,16 @@ Given all of the transition tables above, we have a method to solve this game. W
 extend to transitions out from the overall game, extend to transitions from those
 transitions, and so on, until we hit a base result (time running out or any player
 going to 0 health). The problem is that the number of subgames we have to solve gets quite large.
-Like _exponentially large_ [Footnote].
+Like exponentially large.
 
-To make calculating the solution feasible, the key thing to realize that all games that start at the
+And I really mean do mean exponentially large, as in there's an exponential
+growth function here, and not just kinda fast like "exponentially large" tends to be
+used. The number here can be approximated by $$\text{num_transitions_per_node}^\text{depth}$$. The
+number of transitions per node is somewhere between 9 - 16 (the size of our game matrices) and the
+depth of the tree is the number of turns. So something like $$10^{100}$$, which is far too many subgames
+for me to calculate.
+
+To make calculating the solution feasible, the key thing to realize that all subgames that start at the
 same health and time values have the same solution, regardless of how we got there. So if we
 encounter a game with the same health and time values that we've already solved before
 in some other part of the expansion, we can just reuse the same value and save ourselves
@@ -452,7 +463,7 @@ advantage of some shared structure in the sub-calculations.
 
 This is still quite a big number, but at least I can write the value down here, which is already
 way better than the subgame count without this trick. It's still big enough that I'm not even going to try
-to any of it by hand. I'm just writing a small program to solve all the subgames that you can see
+to any of it by hand. I'm just writing a small program to solve all the subgames which you can see
 [here](https://github.com/laganojunior/lalaheadpats_code/blob/master/josie_mixup/generate_game_results.py).
 
 ## Some results
@@ -465,7 +476,7 @@ I've taken a sample of the data and generated some sheets and charts
 I'll only go over some of the data in that sample, so feel free to look over the full sheets
 if you're still curious.
 
-### When there's lot of time left, time doesn't really matter
+### When there's lot of time left, a little bit more time doesn't really matter
 
 The first thing I noticed in the data is that values of games converge to some value once
 we got to high enough turn counter values. That is, at large enough time left, the probability of the
@@ -536,11 +547,11 @@ _Sweeps on attacker health for Step in game holding defender health constant_
 At high enough health values, the attacker is mostly doing step in 4, which is a completely safe move and only
 really leads to the defender going into switch stance if blocked. The main mixup being the uncommon step in 3
 option to incentivize the defender into ducking or a step in 1+2 to try to get a positive frame advantage and
-thus the overall turn.
+thus keep the turn.
 
 We can see that at some low enough health value, the attacker completely changes the strategy. The attacker
 no longer does step in 4, but ramps up the usage of step in 3 much more and adds in the step in 2 that can
-launch the defender for a big combo. However, all of these options lead to the attacker taking a big combo
+launch the defender for a big combo. However, each of these options leads to the attacker taking a big combo
 if the defender guards the correct way. The attacker is now opting for a high risk/high reward coin flip.
 
 The interesting thing is that the defender barely changes the strategy even as the attacker
@@ -604,17 +615,24 @@ but the advantage increases as both players get to low health values. This is pr
 because at low health values, the next player that does damage first will win the game, and
 the current attacker is favored in doing the next damage.
 
+We also see that the attacker is favored more as they transition into minor advantage ->
+switch -> step in. This makes sense since it's presumably designed that way in the game,
+but it's also possible that it is a natural result of the modeling since the attacker
+would presumably only choose to go into certain stances if it were better than the
+current situation.
+
 ## Closing up
 
-There's quite a bit of questions that I'm still curious about, such as the amount of turns
+There's still quite a bit of questions that I'm curious about, such as the amount of turns
 the game is expected to last in this model. My guess is that many of the games actually end
 up taking up many turns or even ending up in timeouts since it seems that the prevalent
 strategies are pretty safe and it's rare for a player to get a combo. But that would take some
 more coding to take in the data to do some calculations which I didn't want to do just yet.
+Maybe I'll get around to it in another post on this topic!
 
-If you're interested in those question (or any other question on your mind!), feel free to
+If you're interested in that question (or any other question on your mind!), feel free to
 [take the code](https://github.com/laganojunior/lalaheadpats_code/tree/master/josie_mixup)
-and play around with it yourself and share your results!
+and play around with it yourself and share your results.
 
 If you have any questions, comments, or just want to say hi, feel free to email me at
 me@lalaheadpats.com. One day, I'll get a commenting system up....
@@ -641,14 +659,17 @@ me@lalaheadpats.com. One day, I'll get a commenting system up....
     where moves from the ground have generous invulnerability properties. So for simplicity, I just compress this
     wakeup advantage into a reset into a minor advantage for the attacker. This likely reduces the value of
     moves that lead to knockdowns however. For example, we'll see later that switch 4 is never used by the attacker
-    over switch 2 because switch 2's payoff on hit seems much better than switch 4's knockdown on hit.
+    over switch 2 because switch 2's frame advantage on hit seems much better than switch 4's knockdown on hit.
 
 [^4]:
     This is assuming a really specific timing on the defending jab and attacker options during step in.
     In practice, moves can come out of the attacker or defender in a continuous spectrum for a long time after switch
-    and into step in. For example, an attacker can try to catch a delayed jab from the defender by delaying a switch 1,
-    which this 2 turn game model doesn't really catch. Also, a defender can't really jab immediately during switch
-    to interrupt switch moves and then try to jab again to interrupt catch step in moves, as the attacker's step in
+    and into step in. For example, a defender can slightly delay a jab to catch most step in options.
+    But then the attacker can try to catch a delayed jab from the defender by delaying a switch 1
+    This 2 turn game model doesn't really allow for this.
+
+    Also, a defender can't actually jab immediately during switch to interrupt switch moves and then try to jab
+    again to interrupt catch step in moves, as the attacker's step in
     moves would hit before the defender can recover from the first jab and start up the second jab. But taking
     this into account just complicates the transitions, so I just allow it here to make the model simpler.
 
@@ -674,11 +695,11 @@ me@lalaheadpats.com. One day, I'll get a commenting system up....
 
 [^6]:
     Frame traps can occur whenever a player has positive frame advantage and is an easy way to punish newer players
-    that are a little too happy to keep trying to attack immediately after guarding. The payoff of a frame trap can
+    that are a little too happy to keep trying to attack whenever they can. The payoff of a frame trap can
     depend on the frame advantage, since slower moves typically have better payoffs and larger frame advantages can
     allow these slower moves to hit before even the quickest move from a defender.
     
-    In many fighting games, the main option for the defender to escape the frame trap other than just guarding
+    In many fighting game situations, the main option for the defender to escape the frame trap is just guarding
     properly and waiting for the proper time when the attacker no longer has a frame advantage. Tekken 7 gives some
     basic options to challenge a frame advantage by movement to the side or ducking since moves that can deal with a sidestep
     or a duck are generally slower.
