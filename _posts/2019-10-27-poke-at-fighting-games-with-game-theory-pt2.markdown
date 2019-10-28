@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  A poke at fighting games with game theory part 2 - taking turns
-date: 2019-09-27 00:00:00 -0700
+date: 2019-10-27 00:00:00 -0700
 tags: [tekken, fighting_games, game_theory]
 math: true
 ---
