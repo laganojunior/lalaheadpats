@@ -247,6 +247,10 @@ Now I'm ignoring the fact that Magic isn't quite a game of pure skill, so there'
 for differing player skill affecting win probabilities, which would allow Jon to win games against
 me and perhaps change the overall calculus. But that's an exercise for perhaps another day.
 
+Links:
+
+* [Part 2 - Taking account of luck](/2019/09/09/draft-pods-pt2.html)
+
 Footnotes:
 
 [^1]:

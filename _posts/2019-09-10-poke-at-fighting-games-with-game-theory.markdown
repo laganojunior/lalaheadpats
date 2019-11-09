@@ -583,6 +583,10 @@ introduce the concept of "frame advantage" and what "taking turns" in fighting g
 also an additional layer of looking at turn-based games in game theory and algorithms in programming. If you had any fun looking at fighting games through this lens of
 mixed Nash equilibrium, I'm sure that that follow-up will be fun for you as well!
 
+Links:
+
+[Part 2 - Frame advantage and taking turns](/2019/10/27/poke-at-fighting-games-with-game-theory-pt2.html)
+
 ## Appendix A: Solving mixed Nash equilibrium by hand
 
 In the first game, if we remove the 2 options that are probably going to be worse than the others, we're left with a 3 x 3 game. We're trying to figure out
