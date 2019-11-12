@@ -98,8 +98,8 @@ $$P(n)$$ is dependent on $$P(n-1)$$. With similar reasoning, we could realize th
 also dependent on $$P(n-3)$$, and so on.
 
 Even though $$n$$ can be arbitrarily large, $$n$$ is still _finite_ (infinity is not
-a natural number!). That means that eventually, this chain of logic would lead to us to perhaps a $$P(k)$$ for
-some $$k$$ that we already know about, maybe because it's some trivial case. Let's say that for this particular $$P(n)$$, we know something
+a natural number!). That means that eventually, this chain of logic would lead to us to a $$P(k)$$ for
+some $$k$$ that we may already know about, probably because it's some trivial case. Let's say that for this case of $$P(n)$$, we know something
 about $$P(0)$$. At that point, we can end the chain of dependencies, and we end up with a finite chain of dependencies
 like so:
 
@@ -112,11 +112,11 @@ This chain of dependencies is just another way of looking at the conditions need
 
 Working from the beginning, we can work out the logical steps on how mathematical induction works:
 
-* To know if $$P(n)$$ holds, it would be nice to if $$P(n-1)$$ holds
-    * To know if $$P(n-1)$$ holds, it would be nice to if $$P(n-2)$$ holds
+* To know if $$P(n)$$ holds, it would be nice to know if $$P(n-1)$$ holds
+    * To know if $$P(n-1)$$ holds, it would be nice to know if $$P(n-2)$$ holds
         * ... (and so on, a finite number of steps)
-            * To know if $$P(2)$$ holds, it would be nice to if $$P(1)$$ holds
-                * To know if $$P(1)$$ holds, it would be nice to if $$P(0)$$ holds
+            * To know if $$P(2)$$ holds, it would be nice to know if $$P(1)$$ holds
+                * To know if $$P(1)$$ holds, it would be nice to know if $$P(0)$$ holds
                     * Hey, we know that $$P(0)$$ holds! That's easy.
                 * Since we know that $$P(0)$$ holds, $$P(1)$$ holds too
             * Since we know that $$P(1)$$ holds, $$P(2)$$ holds too
@@ -126,15 +126,15 @@ Working from the beginning, we can work out the logical steps on how mathematica
 * We solved exactly what we wanted in the first place!
 
 The chain of dependencies being finite and starting from a point that we know about is important here. If this chain
-never ended up at something we knew how to do, we wouldn't be able to have a place to start from. If the chain was actually infinite,
+never ended up at something we knew how to do, we wouldn't be able to have a place of truth to start from. If the chain was actually infinite,
 we would never get back to the problem we started with. This is the point I want to really emphasize:
 
 **Mathematical induction is a method for reasoning about finite dependency structures** [^1]
 
-But why would we think that $$P(n)$$ depends on $$P(n-1)$$ in the first place? That doesn't actually have to be the
+But why would we think that $$P(n)$$ even depends on $$P(n-1)$$ in the first place? That doesn't actually have to be the
 case. $$P(n)$$ can depend on a variety of other statements (even multiple other statements!), but as long as that
 dependency structure is finite, we can reason about it using induction. The dependency structures that come up in programming problems
-are natural to the problem, much more natural about than trying to guess what the statement
+are natural to the problem, much more natural than trying to guess what the statement
 $$0 + 1 + 2 + \ldots + (n-2) + (n - 1) + n = \frac{n(n+1)}{2}$$ depends on. So let's just hop into using induction
 in algorithms instead.
 
@@ -150,14 +150,14 @@ on the dependency structure for induction.
 Some notation:
 
 * `a[:m]` is the subarray of a containing just the first m elements
-* `a[i]` is the (i+1)'th element of a (the first element of the array is `a[0]` due to 0-indexing)
+* `a[i]` is the (i+1)'th element of `a` (the first element of the array is `a[0]` due to 0-indexing)
 
 Most programmers can do this by writing a loop:
 
 <script src="https://gist.github.com/laganojunior/c1db670cde40e0aa79786dd76714e52a.js"></script>
 
 But what if we didn't know how to write a loop, but we knew at least some basic properties of addition? In particular, we know
-that if we somehow knew the sum of the first n-1 elements (`array_sum(a[:n-1])`) then we could get the sum `array_sum(a[:n])`
+that if we somehow knew the sum of the first n-1 elements (`array_sum(a[:n-1])`), then we could get the sum `array_sum(a[:n])`
 by just adding `array_sum(a[:n-1])` and the nth element a[n-1] together. That is, we can start a dependency chain with
 `array_sum[:n]` being dependent on `array_sum[:n-1]`. Similarly, `array_sum[:n-1]` can be solved if we knew `array_sum(a[:n-2])`
 because we can just add the n-1'th element `a[n-2]` to `array_sum(a[:n-2])`, so `array_sum[:n-1]` is dependent on `array_sum[:n-2]`.
@@ -189,8 +189,8 @@ we call `array_sum` recursively on any dependency we don't easily know, until we
 <script src="https://gist.github.com/laganojunior/e3053271ece395ffa78a100f2ebf151f.js"></script>
 
 Don't _actually_ write code like this for a programming interview though since it's doing an array slice on each call. (If you do this,
-at least tell your interviewer that you just really like functional programming.) I just give it here as an example of a recursive
-algorithm naturally derived from inductive reasoning. In this case, it may seem a
+at least tell your interviewer that you just really like functional programming. If you then get the job, I look forward to getting
+a good reference from you). I just give it here as an example of a recursive algorithm naturally derived from inductive reasoning. In this case, it may seem a
 little silly because the problem was simple enough to solve through a loop. But let's try to do a problem where the loop solution is
 not so immediately obvious.
 
@@ -301,6 +301,7 @@ As always, if you have any questions (about this, or just anything you're curiou
 
 [^1]:
     The entire dependency structure doesn't have to necessarily be finite for induction to work. The necessary condition is that
-    just every dependency path is finite. If this is true, then the relation defined by the dependency structure is called "well-founded".
-    But in typical programming problems, this distinction doesn't really come up. So I'll just hand wave a bit to avoid having to explain a little of
-    set theory along the way.
+    just every dependency path is finite, even if the structure itself is infinite in size. If property of all dependency paths being finite is true,
+    then the relation defined by the dependency structure is called "well-founded". But in typical programming problems, this distinction doesn't really come up.
+    So I'll just hand wave a bit to avoid having to explain a little of set theory along the way. But if you're interested in that, and the concept
+    of induction on infinite sets bigger than the natural numbers, check out ["Transfinite Induction"](https://en.wikipedia.org/wiki/Transfinite_induction)
