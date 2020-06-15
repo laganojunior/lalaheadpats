@@ -13,11 +13,11 @@ _Just cute girls with guns doing cute things. No crippling depression, PTSD, and
 {:center}
 
 About 3 months ago, I wanted to get into gacha games to understand why they are so popular. Gacha games
-are named after Japanese vending machines that disperse random capsule toys, and their defining characteristic
-is a lottery to obtain additional characters, costumes, etc. It's a mechanic
+are named after Japanese vending machines called "Gachapons" that disperse random capsule toys. Their
+defining characteristic is a lottery to obtain additional characters, costumes, etc. It's a mechanic
 that you'll also see in other types of games nowadays as well, in the form of loot boxes or booster packs, but
 the lottery is a big part of the experience in a gacha game. Gacha games have somewhat of a reputation that
-they're money sinks, because rolls can be obtained via real money and getting what you really want typically 
+they're money sinks, because rolls can be obtained via real money and getting what you really want typically
 requires a lot more rolls than you can get for free.
 
 <figure class="video_container">
